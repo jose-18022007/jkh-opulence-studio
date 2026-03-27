@@ -3,8 +3,8 @@ import { Sparkles, Play, Zap, Heart, Star } from 'lucide-react';
 import heroImg from '@/assets/hero-interior.jpg';
 
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.2 } } };
-const fadeUp = { hidden: { opacity: 0, y: 40 }, show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } } };
-const fadeRight = { hidden: { opacity: 0, x: 60 }, show: { opacity: 1, x: 0, transition: { duration: 0.8, delay: 0.3, ease: 'easeOut' } } };
+const fadeUp = { hidden: { opacity: 0, y: 40 }, show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' as const } } };
+const fadeRight = { hidden: { opacity: 0, x: 60 }, show: { opacity: 1, x: 0, transition: { duration: 0.8, delay: 0.3, ease: 'easeOut' as const } } };
 
 const trust = [
   { icon: Sparkles, num: '1000+', label: 'Designs Created' },
