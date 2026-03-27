@@ -53,6 +53,7 @@ const HowItWorks = () => (
         ))}
       </div>
     </div>
+    </div>
   </section>
 );
 
