@@ -10,6 +10,24 @@ const contactCards = [
   { icon: Clock, color: '', title: 'Mon — Sat, 9AM — 7PM', sub: 'Working hours' },
 ];
 
+const formFieldVariants = {
+  hidden: { opacity: 0, x: -30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, delay: 0.2 + i * 0.08, ease: 'easeOut' as const },
+  }),
+};
+
+const contactCardVariants = {
+  hidden: { opacity: 0, x: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, delay: 0.1 + i * 0.1, ease: 'easeOut' as const },
+  }),
+};
+
 const ContactSection = () => (
   <section id="contact" className="py-20 md:py-36" style={{ background: '#08080F' }}>
     <div className="max-w-[1200px] mx-auto px-6">
@@ -17,7 +35,7 @@ const ContactSection = () => (
       <div className="mt-16 grid md:grid-cols-2 gap-8 md:gap-12">
         {/* Form */}
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
+          initial={{ opacity: 0, x: -60 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
@@ -28,16 +46,23 @@ const ContactSection = () => (
               { label: 'Your Name', type: 'text' },
               { label: 'Phone Number', type: 'tel' },
               { label: 'Email Address', type: 'email' },
-            ].map(f => (
-              <div key={f.label}>
+            ].map((f, i) => (
+              <motion.div
+                key={f.label}
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={formFieldVariants}
+              >
                 <label className="font-inter text-[12px] uppercase tracking-[2px] text-white/40 mb-2 block">{f.label}</label>
                 <input
                   type={f.type}
                   className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-5 py-4 text-white font-inter text-base outline-none focus:border-gold/50 focus:shadow-[0_0_20px_rgba(198,165,92,0.08)] transition-all duration-300"
                 />
-              </div>
+              </motion.div>
             ))}
-            <div>
+            <motion.div custom={3} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={formFieldVariants}>
               <label className="font-inter text-[12px] uppercase tracking-[2px] text-white/40 mb-2 block">What Do You Need?</label>
               <select className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-5 py-4 text-white/70 font-inter text-base outline-none focus:border-gold/50 transition-all duration-300 appearance-none cursor-pointer">
                 <option value="">Select a service</option>
@@ -45,12 +70,16 @@ const ContactSection = () => (
                   <option key={o} value={o} className="bg-dark-primary">{o}</option>
                 ))}
               </select>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div custom={4} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={formFieldVariants}>
               <label className="font-inter text-[12px] uppercase tracking-[2px] text-white/40 mb-2 block">Your Message</label>
               <textarea rows={4} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-5 py-4 text-white font-inter text-base outline-none focus:border-gold/50 focus:shadow-[0_0_20px_rgba(198,165,92,0.08)] transition-all duration-300 resize-none" />
-            </div>
+            </motion.div>
             <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
               className="w-full btn-gold-pill py-4 font-inter text-base font-bold mt-2"
@@ -61,32 +90,35 @@ const ContactSection = () => (
         </motion.div>
 
         {/* Contact Cards */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="space-y-4"
-        >
+        <div className="space-y-4">
           {contactCards.map((c, i) => (
             <motion.div
               key={i}
+              custom={i}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={contactCardVariants}
               whileHover={{ y: -2, borderColor: 'rgba(198,165,92,0.3)' }}
               className="glass-card rounded-2xl p-5 md:p-6 flex items-center gap-4 cursor-pointer transition-all duration-300"
             >
-              <div
+              <motion.div
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 + i * 0.1, type: 'spring', stiffness: 300 }}
                 className="w-11 h-11 rounded-full flex items-center justify-center shrink-0"
                 style={{ background: c.color || 'linear-gradient(135deg, #C6A55C, #E8D5A3)' }}
               >
                 <c.icon size={20} className="text-dark-primary" />
-              </div>
+              </motion.div>
               <div>
                 <p className="font-inter text-[15px] text-white font-semibold">{c.title}</p>
                 <p className="font-inter text-[13px] text-white/40">{c.sub}</p>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </div>
   </section>

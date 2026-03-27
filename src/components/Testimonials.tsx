@@ -8,6 +8,15 @@ const testimonials = [
   { text: "From the initial AI-generated concepts to the final handover, everything was seamless. The attention to detail and use of premium materials made all the difference. Highly recommend!", name: 'Anitha Menon', loc: 'Kochi, KL' },
 ];
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 80 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, delay: i * 0.2, ease: 'easeOut' as const },
+  }),
+};
+
 const Testimonials = () => (
   <section className="py-20 md:py-36" style={{ background: '#08080F' }}>
     <div className="max-w-[1200px] mx-auto px-6">
@@ -16,17 +25,34 @@ const Testimonials = () => (
         {testimonials.map((t, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: i * 0.2 }}
+            custom={i}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            variants={cardVariants}
             whileHover={{ y: -4, borderColor: 'rgba(198,165,92,0.2)' }}
             className="glass-card rounded-3xl p-8 md:p-10 relative transition-all duration-500"
           >
             <span className="font-playfair text-[80px] leading-none absolute top-4 left-6" style={{ color: 'rgba(198,165,92,0.15)' }}>"</span>
-            <div className="flex gap-1 mb-4 mt-8">
-              {[...Array(5)].map((_, j) => <Star key={j} size={16} className="fill-gold text-gold" />)}
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 + i * 0.2 }}
+              className="flex gap-1 mb-4 mt-8"
+            >
+              {[...Array(5)].map((_, j) => (
+                <motion.div
+                  key={j}
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 + i * 0.2 + j * 0.08, type: 'spring', stiffness: 300 }}
+                >
+                  <Star size={16} className="fill-gold text-gold" />
+                </motion.div>
+              ))}
+            </motion.div>
             <p className="font-inter text-[15px] text-white/70 italic leading-relaxed">{t.text}</p>
             <div className="mt-6 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
               <div className="flex items-center gap-3">
