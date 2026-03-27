@@ -78,6 +78,26 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+  .gold-shimmer-text {
+    background: linear-gradient(
+      90deg,
+      #C6A55C 0%,
+      #E8D5A3 20%,
+      #B8941F 40%,
+      #C6A55C 50%,
+      #fff 55%,
+      #C6A55C 60%,
+      #E8D5A3 80%,
+      #B8941F 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gold-shimmer-text.shimmer-active {
+    animation: gold-shimmer-sweep 1.5s ease-in-out forwards;
+  }
   .gold-gradient-bg {
     background: linear-gradient(135deg, #C6A55C, #E8D5A3, #B8941F);
   }
@@ -172,6 +192,10 @@
   @keyframes shimmer {
     0% { background-position: -200% center; }
     100% { background-position: 200% center; }
+  }
+  @keyframes gold-shimmer-sweep {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
   }
   .animate-float {
     animation: float 5s ease-in-out infinite;

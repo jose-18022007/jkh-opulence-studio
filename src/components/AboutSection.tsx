@@ -13,45 +13,79 @@ const AboutSection = () => (
     <div className="max-w-[1200px] mx-auto px-6">
       <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
         <motion.div
-          initial={{ opacity: 0, x: -60 }}
+          initial={{ opacity: 0, x: -80 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.9, ease: 'easeOut' }}
           className="relative"
         >
           <div className="rounded-3xl overflow-hidden" style={{ aspectRatio: '4/5', background: 'linear-gradient(135deg, #1a1a2e, #2a1f3d, #16213E)', border: '2px solid rgba(198,165,92,0.15)', boxShadow: '0 20px 60px rgba(0,0,0,0.3)' }} />
-          <div className="absolute -bottom-4 -right-4 md:bottom-8 md:right-[-20px] glass-card-gold rounded-2xl px-5 py-3">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, duration: 0.6, type: 'spring' }}
+            className="absolute -bottom-4 -right-4 md:bottom-8 md:right-[-20px] glass-card-gold rounded-2xl px-5 py-3"
+          >
             <span className="font-playfair text-lg font-bold gold-gradient-text">10+</span>
             <span className="font-inter text-[13px] text-white/60 ml-2">Years Experience</span>
-          </div>
+          </motion.div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, x: 60 }}
+          initial={{ opacity: 0, x: 80 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.9, ease: 'easeOut' }}
         >
-          <span className="font-inter text-[12px] uppercase tracking-[4px]" style={{ color: 'rgba(198,165,92,0.7)' }}>About Us</span>
-          <h2 className="font-playfair text-3xl md:text-[44px] font-bold mt-3 leading-tight">
-            Crafting Dream <span className="gold-gradient-text">Interiors</span>
-          </h2>
-          <p className="font-inter text-[16px] md:text-[17px] text-white/55 leading-relaxed mt-6">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="font-inter text-[12px] uppercase tracking-[4px] inline-block"
+            style={{ color: 'rgba(198,165,92,0.7)' }}
+          >
+            About Us
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.7 }}
+            className="font-playfair text-3xl md:text-[44px] font-bold mt-3 leading-tight"
+          >
+            Crafting Dream <span className="gold-shimmer-text shimmer-active">Interiors</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="font-inter text-[16px] md:text-[17px] text-white/55 leading-relaxed mt-6"
+          >
             We combine decades of interior design craftsmanship with cutting-edge artificial intelligence to make premium interior design accessible to every homeowner. From the first concept sketch to the final nail, JKH Interior transforms ordinary spaces into extraordinary homes that reflect your personality and lifestyle.
-          </p>
+          </motion.p>
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5">
             {features.map((f, i) => (
               <motion.div
                 key={f.title}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.3 + i * 0.1 }}
+                transition={{ delay: 0.4 + i * 0.12, duration: 0.6 }}
                 className="flex items-start gap-4"
               >
-                <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0" style={{ border: '2px solid rgba(198,165,92,0.3)' }}>
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 + i * 0.12, type: 'spring', stiffness: 250 }}
+                  className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                  style={{ border: '2px solid rgba(198,165,92,0.3)' }}
+                >
                   <f.icon size={20} className="text-gold" />
-                </div>
+                </motion.div>
                 <div>
                   <p className="font-inter text-[15px] text-white font-semibold">{f.title}</p>
                   <p className="font-inter text-[13px] text-white/40 mt-0.5">{f.desc}</p>

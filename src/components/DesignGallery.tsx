@@ -15,6 +15,15 @@ const items = [
   { cat: 'Dining Room', ratio: '3/4', gradient: 'linear-gradient(135deg, #16213E, #2a1f3d, #1a1a2e)' },
 ];
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 80 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, delay: (i % 3) * 0.15, ease: 'easeOut' as const },
+  }),
+};
+
 const DesignGallery = () => {
   const [liked, setLiked] = useState<Set<number>>(new Set());
 
@@ -34,10 +43,11 @@ const DesignGallery = () => {
           {items.map((item, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: (i % 3) * 0.1 }}
+              custom={i}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-30px' }}
+              variants={cardVariants}
               className="relative rounded-2xl overflow-hidden cursor-pointer group mb-4 break-inside-avoid"
               style={{ aspectRatio: item.ratio }}
             >
@@ -54,7 +64,13 @@ const DesignGallery = () => {
             </motion.div>
           ))}
         </div>
-        <div className="mt-12 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-12 text-center"
+        >
           <motion.button
             whileHover={{ scale: 1.05, backgroundColor: 'rgba(198,165,92,0.1)' }}
             whileTap={{ scale: 0.97 }}
@@ -62,7 +78,7 @@ const DesignGallery = () => {
           >
             View All Designs →
           </motion.button>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

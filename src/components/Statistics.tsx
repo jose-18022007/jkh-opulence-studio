@@ -18,8 +18,11 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
     const dur = 2000;
     const start = Date.now();
     const tick = () => {
-      const p = Math.min((Date.now() - start) / dur, 1);
-      setVal(Math.floor(p * target));
+      const elapsed = Date.now() - start;
+      const p = Math.min(elapsed / dur, 1);
+      // Ease-out cubic for smoother counting
+      const eased = 1 - Math.pow(1 - p, 3);
+      setVal(Math.floor(eased * target));
       if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -35,17 +38,25 @@ const Statistics = () => (
         {stats.map((s, i) => (
           <motion.div
             key={s.label}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 60, scale: 0.9 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: i * 0.15 }}
+            transition={{ duration: 0.7, delay: i * 0.15, ease: 'easeOut' }}
             className="text-center relative"
           >
             {i > 0 && <div className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 w-px h-12 gold-gradient-bg opacity-15" />}
             <div className="font-playfair text-4xl md:text-[56px] font-bold gold-gradient-text">
               <Counter target={s.num} suffix={s.suffix} />
             </div>
-            <p className="font-inter text-[13px] uppercase tracking-[3px] text-white/40 mt-2">{s.label}</p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 + i * 0.15 }}
+              className="font-inter text-[13px] uppercase tracking-[3px] text-white/40 mt-2"
+            >
+              {s.label}
+            </motion.p>
           </motion.div>
         ))}
       </div>
