@@ -18,8 +18,9 @@ const cardVariants = {
 };
 
 const Testimonials = () => (
-  <section className="py-20 md:py-36" style={{ background: '#08080F' }}>
-    <div className="max-w-[1200px] mx-auto px-6">
+  <section className="py-20 md:py-36 relative overflow-hidden" style={{ background: '#08080F' }}>
+    <div className="absolute top-[30%] right-[-5%] w-[400px] h-[400px] rounded-full animate-float pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.04) 0%, transparent 70%)', filter: 'blur(110px)', animationDelay: '2s' }} />
+    <div className="max-w-[1200px] mx-auto px-6 relative z-10">
       <SectionHeading white="What Our" gold="Clients Say" />
       <div className="mt-16 grid md:grid-cols-3 gap-6">
         {testimonials.map((t, i) => (

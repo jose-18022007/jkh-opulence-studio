@@ -68,11 +68,33 @@ const HeroSection = () => {
 
   return (
     <section ref={sectionRef} id="home" className="relative min-h-screen flex items-center overflow-hidden" style={{ background: 'linear-gradient(135deg, #08080F 0%, #0F0F1A 100%)' }}>
+      {/* Perspective grid */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ perspective: '800px' }}>
+        <div
+          className="absolute left-[-20%] right-[-20%] bottom-0 h-[60%]"
+          style={{
+            transform: 'rotateX(60deg)',
+            transformOrigin: 'bottom center',
+            backgroundImage: `
+              linear-gradient(rgba(198,165,92,0.03) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(198,165,92,0.03) 1px, transparent 1px)
+            `,
+            backgroundSize: '80px 80px',
+            maskImage: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 80%)',
+            WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 80%)',
+          }}
+        />
+      </div>
+
       {/* Parallax background orbs */}
-      <motion.div style={{ y: orbY1 }} className="absolute top-20 right-[20%] w-[500px] h-[500px] rounded-full animate-float pointer-events-none" />
-      <div className="absolute top-20 right-[20%] w-[500px] h-[500px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.08) 0%, transparent 70%)', filter: 'blur(100px)' }} />
-      <motion.div style={{ y: orbY2 }} className="absolute bottom-20 left-[10%] w-[400px] h-[400px] rounded-full animate-float pointer-events-none" />
-      <div className="absolute bottom-20 left-[10%] w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.05) 0%, transparent 70%)', filter: 'blur(100px)', animationDelay: '2.5s' }} />
+      <motion.div style={{ y: orbY1 }} className="absolute top-20 right-[20%] w-[500px] h-[500px] rounded-full pointer-events-none" >
+        <div className="w-full h-full rounded-full animate-float" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.08) 0%, transparent 70%)', filter: 'blur(100px)' }} />
+      </motion.div>
+      <motion.div style={{ y: orbY2 }} className="absolute bottom-20 left-[10%] w-[400px] h-[400px] rounded-full pointer-events-none">
+        <div className="w-full h-full rounded-full animate-float" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.05) 0%, transparent 70%)', filter: 'blur(100px)', animationDelay: '2.5s' }} />
+      </motion.div>
+      {/* Extra amber orb */}
+      <div className="absolute top-[40%] left-[50%] w-[300px] h-[300px] rounded-full pointer-events-none animate-float" style={{ background: 'radial-gradient(circle, rgba(217,169,56,0.06) 0%, transparent 70%)', filter: 'blur(120px)', animationDelay: '4s' }} />
 
       <div className="max-w-[1400px] mx-auto px-6 w-full pt-24 pb-16 md:pt-0 md:pb-0">
         <div className="grid md:grid-cols-2 gap-12 items-center">

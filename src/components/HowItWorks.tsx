@@ -19,7 +19,10 @@ const cardVariants = {
 
 const HowItWorks = () => (
   <section id="how-it-works" className="py-20 md:py-36" style={{ background: '#08080F' }}>
-    <div className="max-w-[1200px] mx-auto px-6">
+    <div className="relative">
+      <div className="absolute top-[20%] right-[-5%] w-[400px] h-[400px] rounded-full animate-float pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.05) 0%, transparent 70%)', filter: 'blur(100px)', animationDelay: '1s' }} />
+      <div className="absolute bottom-[10%] left-[-5%] w-[350px] h-[350px] rounded-full animate-float pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(217,169,56,0.04) 0%, transparent 70%)', filter: 'blur(110px)', animationDelay: '3s' }} />
+    <div className="max-w-[1200px] mx-auto px-6 relative z-10">
       <SectionHeading white="How It" gold="Works" sub="Three simple steps to transform your space" />
       <div className="mt-16 md:mt-20 grid md:grid-cols-3 gap-8">
         {steps.map((s, i) => (
@@ -49,6 +52,7 @@ const HowItWorks = () => (
           </motion.div>
         ))}
       </div>
+    </div>
     </div>
   </section>
 );
