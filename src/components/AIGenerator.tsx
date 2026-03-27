@@ -29,9 +29,20 @@ const AIGenerator = () => {
 
   return (
     <section id="generate" className="py-20 md:py-36 relative overflow-hidden" style={{ background: '#08080F' }}>
-      {/* Background orbs */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full animate-float opacity-100 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.05) 0%, transparent 70%)', filter: 'blur(100px)' }} />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full animate-float pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.04) 0%, transparent 70%)', filter: 'blur(100px)', animationDelay: '2s' }} />
+      {/* Gradient mesh */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: `
+          radial-gradient(ellipse 600px 400px at 20% 30%, rgba(198,165,92,0.06) 0%, transparent 70%),
+          radial-gradient(ellipse 500px 500px at 80% 70%, rgba(217,169,56,0.05) 0%, transparent 70%),
+          radial-gradient(ellipse 400px 300px at 50% 50%, rgba(198,165,92,0.04) 0%, transparent 70%),
+          radial-gradient(ellipse 300px 400px at 70% 20%, rgba(184,148,31,0.04) 0%, transparent 70%),
+          radial-gradient(ellipse 350px 350px at 30% 80%, rgba(232,213,163,0.03) 0%, transparent 70%)
+        `
+      }} />
+      {/* Floating orbs */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full animate-float opacity-100 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.06) 0%, transparent 70%)', filter: 'blur(100px)' }} />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full animate-float pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(217,169,56,0.05) 0%, transparent 70%)', filter: 'blur(100px)', animationDelay: '2s' }} />
+      <div className="absolute top-[10%] right-[10%] w-[350px] h-[350px] rounded-full animate-float pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(232,213,163,0.04) 0%, transparent 70%)', filter: 'blur(90px)', animationDelay: '3.5s' }} />
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
         {/* Badge */}
