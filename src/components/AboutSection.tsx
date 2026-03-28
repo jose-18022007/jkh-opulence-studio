@@ -43,7 +43,7 @@ const AboutSection = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="font-inter text-[12px] uppercase tracking-[4px] inline-block"
+            className="font-inter text-[11px] uppercase tracking-[6px] inline-block font-light"
             style={{ color: 'rgba(198,165,92,0.7)' }}
           >
             About Us
@@ -53,16 +53,16 @@ const AboutSection = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.7 }}
-            className="font-playfair text-3xl md:text-[44px] font-bold mt-3 leading-tight"
+            className="font-playfair text-[34px] md:text-[48px] font-extrabold mt-3 leading-tight"
           >
-            Crafting Dream <span className="gold-shimmer-text shimmer-active">Interiors</span>
+            Crafting Dream <span className="gold-shimmer-text shimmer-active" style={{ filter: 'drop-shadow(0 0 20px rgba(198,165,92,0.2))' }}>Interiors</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="font-inter text-[16px] md:text-[17px] text-white/55 leading-relaxed mt-6"
+            className="font-inter text-[15px] md:text-base font-light text-white/50 leading-[1.9] mt-6 tracking-[0.3px]"
           >
             We combine decades of interior design craftsmanship with cutting-edge artificial intelligence to make premium interior design accessible to every homeowner. From the first concept sketch to the final nail, JKH Interior transforms ordinary spaces into extraordinary homes that reflect your personality and lifestyle.
           </motion.p>

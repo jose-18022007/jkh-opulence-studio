@@ -47,8 +47,8 @@ const HowItWorks = () => (
             >
               <s.icon size={28} className="text-gold" />
             </motion.div>
-            <h3 className="font-playfair text-2xl font-bold text-white mb-3">{s.title}</h3>
-            <p className="font-inter text-[15px] text-white/50 leading-relaxed">{s.desc}</p>
+            <h3 className="font-playfair text-[22px] md:text-2xl font-extrabold text-white mb-3">{s.title}</h3>
+            <p className="font-inter text-[14px] font-light text-white/45 leading-[1.8]">{s.desc}</p>
           </motion.div>
         ))}
       </div>

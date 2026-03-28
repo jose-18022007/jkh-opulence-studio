@@ -52,7 +52,7 @@ const AIGenerator = () => {
           viewport={{ once: true }}
           className="flex justify-center mb-6"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-inter text-[12px] uppercase tracking-[2px] text-gold" style={{ border: '1px solid rgba(198,165,92,0.3)', background: 'rgba(198,165,92,0.05)' }}>
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-inter text-[11px] uppercase tracking-[4px] text-gold font-light" style={{ border: '1px solid rgba(198,165,92,0.3)', background: 'rgba(198,165,92,0.05)' }}>
             <Sparkles size={14} /> Powered by AI
           </span>
         </motion.div>
@@ -63,10 +63,10 @@ const AIGenerator = () => {
           viewport={{ once: true }}
           className="text-center"
         >
-          <h2 className="font-playfair text-3xl md:text-[52px] font-bold" style={{ textShadow: '0 0 60px rgba(198,165,92,0.2)' }}>
-            Create Your <span className="gold-gradient-text">Dream Interior</span>
+          <h2 className="font-playfair text-[34px] md:text-[56px] font-extrabold" style={{ textShadow: '0 0 60px rgba(198,165,92,0.2)' }}>
+            Create Your <span className="gold-gradient-text" style={{ filter: 'drop-shadow(0 0 20px rgba(198,165,92,0.2))' }}>Dream Interior</span>
           </h2>
-          <p className="font-inter text-base md:text-[17px] text-white/40 mt-4 max-w-xl mx-auto">Upload any room photo and watch AI generate stunning designs instantly</p>
+          <p className="font-inter text-sm md:text-[15px] font-light text-white/40 mt-4 max-w-xl mx-auto uppercase tracking-[3px]">Upload any room photo and watch AI generate stunning designs instantly</p>
         </motion.div>
 
         <motion.div
