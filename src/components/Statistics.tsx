@@ -32,7 +32,7 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
 };
 
 const Statistics = () => (
-  <section className="py-20 md:py-24 border-t border-b" style={{ background: 'linear-gradient(135deg, rgba(198,165,92,0.04), transparent, rgba(198,165,92,0.04))', borderColor: 'rgba(198,165,92,0.08)' }}>
+  <section className="py-20 md:py-28 border-t border-b" style={{ background: 'linear-gradient(135deg, rgba(198,165,92,0.04), transparent, rgba(198,165,92,0.04))', borderColor: 'rgba(198,165,92,0.08)' }}>
     <div className="max-w-[1200px] mx-auto px-6">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
         {stats.map((s, i) => (

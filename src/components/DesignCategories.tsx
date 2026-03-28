@@ -36,7 +36,7 @@ const DesignCategories = () => (
             viewport={{ once: true, margin: '-30px' }}
             variants={cardVariants}
             whileHover={{ scale: 1.03, boxShadow: '0 20px 60px rgba(198,165,92,0.1)' }}
-            className="relative rounded-[20px] overflow-hidden cursor-pointer group"
+            className="relative rounded-3xl overflow-hidden cursor-pointer group"
             style={{ aspectRatio: '4/5' }}
           >
             <div className="absolute inset-0 transition-transform duration-[600ms] group-hover:scale-110" style={{ background: cat.gradient }} />
@@ -57,7 +57,7 @@ const DesignCategories = () => (
               </motion.h3>
               <span className="text-[13px] mt-1 inline-block" style={{ color: 'rgba(198,165,92,0.7)' }}>Explore →</span>
             </div>
-            <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/40 rounded-[20px] transition-all duration-500" />
+            <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/40 rounded-3xl transition-all duration-500" />
           </motion.div>
         ))}
       </div>

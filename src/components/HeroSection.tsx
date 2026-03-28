@@ -135,7 +135,7 @@ const HeroSection = () => {
                   <t.icon size={18} className="text-gold" />
                   <div>
                     <span className="font-inter text-lg text-white font-bold">{t.num}</span>
-                    <span className="block font-inter text-[13px] text-white/40">{t.label}</span>
+                    <span className="block font-inter text-[11px] text-white/35 uppercase tracking-[3px] font-light">{t.label}</span>
                   </div>
                 </motion.div>
               ))}

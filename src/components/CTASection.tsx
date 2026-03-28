@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 
 const CTASection = () => (
-  <section className="py-20 md:py-32 relative overflow-hidden" style={{ background: '#0A0A14' }}>
+  <section className="py-20 md:py-36 relative overflow-hidden" style={{ background: '#0A0A14' }}>
     <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, rgba(198,165,92,0.08) 0%, transparent 70%)' }} />
     <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full animate-float pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.06) 0%, transparent 70%)', filter: 'blur(100px)' }} />
 

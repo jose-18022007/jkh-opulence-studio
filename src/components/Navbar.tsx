@@ -50,7 +50,7 @@ const Navbar = () => {
               <button
                 key={link}
                 onClick={() => scrollTo(link)}
-                className="font-inter text-[13px] uppercase tracking-[2px] text-white/60 hover:text-white transition-colors duration-300 cursor-pointer"
+                className="font-inter text-[11px] uppercase tracking-[3px] text-white/60 hover:text-white transition-colors duration-300 cursor-pointer font-light"
               >
                 {link}
               </button>
