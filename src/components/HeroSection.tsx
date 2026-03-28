@@ -34,7 +34,7 @@ const TypewriterHeading = () => {
   }, []);
 
   return (
-    <h1 className="font-playfair text-[40px] md:text-[72px] lg:text-[76px] font-extrabold leading-[1.1]">
+    <h1 className="font-playfair text-[42px] md:text-[76px] lg:text-[80px] font-extrabold leading-[1.05] tracking-[-0.02em]">
       {headingWords.map((word, i) => (
         <motion.span
           key={i}
@@ -52,7 +52,7 @@ const TypewriterHeading = () => {
         animate={showGold ? { opacity: 1, scale: 1, filter: 'blur(0px)' } : {}}
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className="gold-shimmer-text shimmer-active inline-block"
-        style={{ textShadow: '0 0 80px rgba(198,165,92,0.3)' }}
+        style={{ textShadow: '0 0 80px rgba(198,165,92,0.3)', filter: 'drop-shadow(0 0 24px rgba(198,165,92,0.2))' }}
       >
         Masterpiece
       </motion.span>
@@ -103,7 +103,7 @@ const HeroSection = () => {
             <motion.div variants={fadeUp}>
               <TypewriterHeading />
             </motion.div>
-            <motion.p variants={fadeUp} className="font-inter text-base md:text-xl text-white/55 leading-relaxed mt-6 max-w-lg">
+            <motion.p variants={fadeUp} className="font-inter text-sm md:text-base font-light text-white/50 leading-relaxed mt-6 max-w-lg tracking-[0.5px]">
               Upload your room photo and watch our AI create 10+ breathtaking interior design variations in seconds. No designer needed.
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-8 md:mt-10">

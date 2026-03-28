@@ -12,7 +12,7 @@ const CTASection = () => (
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2, type: 'spring' }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-inter text-[12px] uppercase tracking-[3px] text-gold mb-6"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-inter text-[11px] uppercase tracking-[4px] text-gold mb-6 font-light"
           style={{ border: '1px solid rgba(198,165,92,0.3)', background: 'rgba(198,165,92,0.05)' }}
         >
           ✨ Start Your Journey
@@ -22,16 +22,16 @@ const CTASection = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.7 }}
-          className="font-playfair text-3xl md:text-[56px] font-bold leading-tight mt-6"
+          className="font-playfair text-[34px] md:text-[60px] font-extrabold leading-tight mt-6"
         >
-          Ready to Transform <span className="gold-shimmer-text shimmer-active">Your Home?</span>
+          Ready to Transform <span className="gold-shimmer-text shimmer-active" style={{ filter: 'drop-shadow(0 0 20px rgba(198,165,92,0.2))' }}>Your Home?</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
-          className="font-inter text-base md:text-lg text-white/50 mt-6 leading-relaxed"
+          className="font-inter text-sm md:text-base font-light text-white/45 mt-6 leading-relaxed tracking-[0.5px]"
         >
           Upload your room photo now and witness your space reimagined by AI in seconds. It's free, instant, and magical.
         </motion.p>
@@ -51,7 +51,7 @@ const CTASection = () => (
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.8 }}
-          className="font-inter text-sm text-white/35 mt-6"
+          className="font-inter text-xs text-white/30 mt-6 uppercase tracking-[4px] font-light"
         >
           Join 500+ homeowners who already transformed their spaces
         </motion.p>

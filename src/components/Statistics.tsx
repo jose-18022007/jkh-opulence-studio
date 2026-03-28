@@ -45,7 +45,7 @@ const Statistics = () => (
             className="text-center relative"
           >
             {i > 0 && <div className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 w-px h-12 gold-gradient-bg opacity-15" />}
-            <div className="font-playfair text-4xl md:text-[56px] font-bold gold-gradient-text">
+            <div className="font-playfair text-4xl md:text-[60px] font-extrabold gold-gradient-text" style={{ filter: 'drop-shadow(0 0 20px rgba(198,165,92,0.2))' }}>
               <Counter target={s.num} suffix={s.suffix} />
             </div>
             <motion.p
@@ -53,7 +53,7 @@ const Statistics = () => (
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.5 + i * 0.15 }}
-              className="font-inter text-[13px] uppercase tracking-[3px] text-white/40 mt-2"
+              className="font-inter text-[11px] uppercase tracking-[4px] text-white/35 mt-3 font-light"
             >
               {s.label}
             </motion.p>

@@ -94,6 +94,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(198, 165, 92, 0.2));
   }
   .gold-shimmer-text.shimmer-active {
     animation: gold-shimmer-sweep 1.5s ease-in-out forwards;
