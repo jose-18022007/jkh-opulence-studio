@@ -28,7 +28,7 @@ const SocialProof = () => (
             transition={{ delay: i * 0.1, duration: 0.5 }}
             className="flex items-center gap-8"
           >
-            <span className="font-inter text-[13px] uppercase tracking-[3px] text-white/50 whitespace-nowrap">{item}</span>
+            <span className="font-inter text-[11px] uppercase tracking-[4px] text-white/50 whitespace-nowrap font-light">{item}</span>
             {i < items.length - 1 && <span className="w-px h-5 gold-gradient-bg opacity-30" />}
           </motion.div>
         ))}
@@ -37,7 +37,7 @@ const SocialProof = () => (
       <div className="md:hidden overflow-hidden">
         <div className="flex animate-marquee w-max gap-10">
           {[...items, ...items].map((item, i) => (
-            <span key={i} className="font-inter text-[12px] uppercase tracking-[3px] text-white/50 whitespace-nowrap">{item}</span>
+            <span key={i} className="font-inter text-[11px] uppercase tracking-[4px] text-white/50 whitespace-nowrap font-light">{item}</span>
           ))}
         </div>
       </div>

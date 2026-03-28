@@ -54,7 +54,7 @@ const Testimonials = () => (
                 </motion.div>
               ))}
             </motion.div>
-            <p className="font-inter text-[15px] text-white/70 italic leading-relaxed">{t.text}</p>
+            <p className="font-inter text-[15px] text-white/65 italic leading-[1.9] font-light">{t.text}</p>
             <div className="mt-6 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full" style={{ background: 'linear-gradient(135deg, #C6A55C, #E8D5A3)', border: '2px solid rgba(198,165,92,0.4)' }} />

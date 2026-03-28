@@ -55,7 +55,7 @@ const ContactSection = () => (
                 viewport={{ once: true }}
                 variants={formFieldVariants}
               >
-                <label className="font-inter text-[12px] uppercase tracking-[2px] text-white/40 mb-2 block">{f.label}</label>
+                <label className="font-inter text-[11px] uppercase tracking-[4px] text-white/40 mb-2 block font-light">{f.label}</label>
                 <input
                   type={f.type}
                   className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-5 py-4 text-white font-inter text-base outline-none focus:border-gold/50 focus:shadow-[0_0_20px_rgba(198,165,92,0.08)] transition-all duration-300"
@@ -63,7 +63,7 @@ const ContactSection = () => (
               </motion.div>
             ))}
             <motion.div custom={3} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={formFieldVariants}>
-              <label className="font-inter text-[12px] uppercase tracking-[2px] text-white/40 mb-2 block">What Do You Need?</label>
+              <label className="font-inter text-[11px] uppercase tracking-[4px] text-white/40 mb-2 block font-light">What Do You Need?</label>
               <select className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-5 py-4 text-white/70 font-inter text-base outline-none focus:border-gold/50 transition-all duration-300 appearance-none cursor-pointer">
                 <option value="">Select a service</option>
                 {['TV Unit Design', 'Kitchen Interior', 'Wardrobe Design', 'Ceiling Design', 'Full Home Interior', 'Commercial Interior', 'Other'].map(o => (
@@ -72,7 +72,7 @@ const ContactSection = () => (
               </select>
             </motion.div>
             <motion.div custom={4} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={formFieldVariants}>
-              <label className="font-inter text-[12px] uppercase tracking-[2px] text-white/40 mb-2 block">Your Message</label>
+              <label className="font-inter text-[11px] uppercase tracking-[4px] text-white/40 mb-2 block font-light">Your Message</label>
               <textarea rows={4} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-5 py-4 text-white font-inter text-base outline-none focus:border-gold/50 focus:shadow-[0_0_20px_rgba(198,165,92,0.08)] transition-all duration-300 resize-none" />
             </motion.div>
             <motion.button
@@ -100,7 +100,7 @@ const ContactSection = () => (
               viewport={{ once: true }}
               variants={contactCardVariants}
               whileHover={{ y: -2, borderColor: 'rgba(198,165,92,0.3)' }}
-              className="glass-card rounded-2xl p-5 md:p-6 flex items-center gap-4 cursor-pointer transition-all duration-300"
+              className="glass-card rounded-2xl p-6 flex items-center gap-4 cursor-pointer transition-all duration-300"
             >
               <motion.div
                 initial={{ scale: 0 }}

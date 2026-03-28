@@ -53,7 +53,7 @@ const DesignGallery = () => {
             >
               <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.08]" style={{ background: item.gradient }} />
               <div className="absolute inset-0 bg-[rgba(8,8,15,0.7)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span className="px-4 py-1.5 rounded-full text-[12px] font-inter uppercase tracking-[2px]" style={{ border: '1px solid rgba(198,165,92,0.5)', color: 'rgba(198,165,92,0.8)' }}>{item.cat}</span>
+                <span className="px-4 py-1.5 rounded-full text-[11px] font-inter uppercase tracking-[4px] font-light" style={{ border: '1px solid rgba(198,165,92,0.5)', color: 'rgba(198,165,92,0.8)' }}>{item.cat}</span>
               </div>
               <button
                 onClick={(e) => { e.stopPropagation(); toggleLike(i); }}

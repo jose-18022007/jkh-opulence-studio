@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Instagram, Facebook, Youtube, MessageCircle, Phone, Mail, MapPin } from 'lucide-react';
 
 const Footer = () => (
-  <footer className="pt-16 md:pt-20 pb-8" style={{ background: '#050508', borderTop: '1px solid rgba(198,165,92,0.1)' }}>
+  <footer className="pt-20 md:pt-24 pb-10" style={{ background: '#050508', borderTop: '1px solid rgba(198,165,92,0.1)' }}>
     <div className="max-w-[1200px] mx-auto px-6">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -33,7 +33,7 @@ const Footer = () => (
         </div>
         {/* Col 2 */}
         <div>
-          <h4 className="font-inter text-sm uppercase tracking-[2px] text-white font-semibold mb-5">Quick Links</h4>
+          <h4 className="font-inter text-[11px] uppercase tracking-[4px] text-white font-semibold mb-5">Quick Links</h4>
           {['Home', 'About Us', 'Our Designs', 'Generate Design', 'Contact Us'].map((l, i) => (
             <motion.a
               key={l}
@@ -50,7 +50,7 @@ const Footer = () => (
         </div>
         {/* Col 3 */}
         <div>
-          <h4 className="font-inter text-sm uppercase tracking-[2px] text-white font-semibold mb-5">Our Services</h4>
+          <h4 className="font-inter text-[11px] uppercase tracking-[4px] text-white font-semibold mb-5">Our Services</h4>
           {['TV Unit Design', 'Kitchen Interior', 'Wardrobe Design', 'Ceiling Design', 'Full Home Interior', 'Commercial Interior'].map((l, i) => (
             <motion.a
               key={l}
@@ -67,7 +67,7 @@ const Footer = () => (
         </div>
         {/* Col 4 */}
         <div>
-          <h4 className="font-inter text-sm uppercase tracking-[2px] text-white font-semibold mb-5">Contact</h4>
+          <h4 className="font-inter text-[11px] uppercase tracking-[4px] text-white font-semibold mb-5">Contact</h4>
           {[
             { icon: Phone, text: '+91 98765 43210' },
             { icon: Mail, text: 'info@jkhinterior.com' },

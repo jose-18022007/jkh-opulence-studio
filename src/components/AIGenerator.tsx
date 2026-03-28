@@ -97,15 +97,15 @@ const AIGenerator = () => {
           {/* Options */}
           <div className="mt-8 space-y-6">
             <div>
-              <label className="font-inter text-[13px] uppercase tracking-[2px] text-white/40 mb-3 block">Select Room Type</label>
+              <label className="font-inter text-[11px] uppercase tracking-[4px] text-white/40 mb-3 block font-light">Select Room Type</label>
               <div className="flex flex-wrap gap-2">{roomTypes.map(r => <Pill key={r} label={r} selected={room === r} onClick={() => setRoom(r)} />)}</div>
             </div>
             <div>
-              <label className="font-inter text-[13px] uppercase tracking-[2px] text-white/40 mb-3 block">Design Style</label>
+              <label className="font-inter text-[11px] uppercase tracking-[4px] text-white/40 mb-3 block font-light">Design Style</label>
               <div className="flex flex-wrap gap-2">{styles.map(s => <Pill key={s} label={s} selected={style === s} onClick={() => setStyle(s)} />)}</div>
             </div>
             <div>
-              <label className="font-inter text-[13px] uppercase tracking-[2px] text-white/40 mb-3 block">Number of Designs</label>
+              <label className="font-inter text-[11px] uppercase tracking-[4px] text-white/40 mb-3 block font-light">Number of Designs</label>
               <div className="flex flex-wrap gap-2">{counts.map(c => <Pill key={c} label={c} selected={count === c} onClick={() => setCount(c)} />)}</div>
             </div>
           </div>
@@ -114,7 +114,7 @@ const AIGenerator = () => {
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="w-full mt-10 gold-gradient-bg text-dark-primary font-playfair text-xl font-bold py-5 rounded-2xl cursor-pointer animate-pulse-gold"
+            className="w-full mt-10 gold-gradient-bg text-dark-primary font-playfair text-xl font-bold py-5 rounded-[16px] cursor-pointer animate-pulse-gold"
           >
             ✨ Generate Designs
           </motion.button>
