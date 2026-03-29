@@ -19,13 +19,14 @@ const AboutSection = () => (
           transition={{ duration: 0.9, ease: 'easeOut' }}
           className="relative"
         >
-          <div className="rounded-3xl overflow-hidden" style={{ aspectRatio: '4/5', background: 'linear-gradient(135deg, #1a1a2e, #2a1f3d, #16213E)', border: '2px solid rgba(198,165,92,0.15)', boxShadow: '0 20px 60px rgba(0,0,0,0.3)' }} />
+          <div className="overflow-hidden" style={{ aspectRatio: '4/5', background: 'linear-gradient(135deg, #1a1a2e, #2a1f3d, #16213E)', border: '2px solid rgba(198,165,92,0.15)', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', borderRadius: 32 }} />
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.5, duration: 0.6, type: 'spring' }}
-            className="absolute -bottom-4 -right-4 md:bottom-8 md:right-[-20px] glass-card-gold rounded-2xl px-5 py-3"
+            className="absolute -bottom-4 -right-4 md:bottom-8 md:right-[-20px] glass-card-gold px-5 py-3"
+            style={{ borderRadius: 24 }}
           >
             <span className="font-playfair text-lg font-bold gold-gradient-text">10+</span>
             <span className="font-inter text-[13px] text-white/60 ml-2">Years Experience</span>
@@ -53,7 +54,7 @@ const AboutSection = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.7 }}
-            className="font-playfair text-[34px] md:text-[48px] font-extrabold mt-3 leading-tight"
+            className="font-playfair text-[34px] md:text-[48px] font-extrabold mt-3 leading-tight tracking-[-0.02em]"
           >
             Crafting Dream <span className="gold-shimmer-text shimmer-active" style={{ filter: 'drop-shadow(0 0 20px rgba(198,165,92,0.2))' }}>Interiors</span>
           </motion.h2>
@@ -70,10 +71,10 @@ const AboutSection = () => (
             {features.map((f, i) => (
               <motion.div
                 key={f.title}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 80 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.4 + i * 0.12, duration: 0.6 }}
+                transition={{ delay: 0.4 + i * 0.12, duration: 0.7, type: 'spring', stiffness: 100, damping: 15 }}
                 className="flex items-start gap-4"
               >
                 <motion.div

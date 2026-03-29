@@ -18,7 +18,7 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.6, delay: i * 0.08, ease: 'easeOut' as const },
+    transition: { duration: 0.7, delay: i * 0.08, type: 'spring' as const, stiffness: 100, damping: 15 },
   }),
 };
 
@@ -36,8 +36,8 @@ const DesignCategories = () => (
             viewport={{ once: true, margin: '-30px' }}
             variants={cardVariants}
             whileHover={{ scale: 1.03, boxShadow: '0 20px 60px rgba(198,165,92,0.1)' }}
-            className="relative rounded-3xl overflow-hidden cursor-pointer group"
-            style={{ aspectRatio: '4/5' }}
+            className="relative overflow-hidden cursor-pointer group"
+            style={{ aspectRatio: '4/5', borderRadius: 32 }}
           >
             <div className="absolute inset-0 transition-transform duration-[600ms] group-hover:scale-110" style={{ background: cat.gradient }} />
             <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,15,0.9) 0%, transparent 60%)' }} />
@@ -51,13 +51,13 @@ const DesignCategories = () => (
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 + i * 0.08 }}
-                className="font-playfair text-xl font-bold text-white"
+                className="font-playfair text-xl font-bold text-white tracking-[-0.02em]"
               >
                 {cat.name}
               </motion.h3>
               <span className="text-[13px] mt-1 inline-block" style={{ color: 'rgba(198,165,92,0.7)' }}>Explore →</span>
             </div>
-            <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/40 rounded-3xl transition-all duration-500" />
+            <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/40 transition-all duration-500" style={{ borderRadius: 32 }} />
           </motion.div>
         ))}
       </div>

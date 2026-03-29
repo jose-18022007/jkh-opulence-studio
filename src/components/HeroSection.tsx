@@ -63,11 +63,21 @@ const TypewriterHeading = () => {
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
-  const orbY1 = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const orbY2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const orbY1 = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const orbY2 = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const orbY3 = useTransform(scrollYProgress, [0, 1], [0, 80]);
 
   return (
     <section ref={sectionRef} id="home" className="relative min-h-screen flex items-center overflow-hidden" style={{ background: 'linear-gradient(135deg, #08080F 0%, #0F0F1A 100%)' }}>
+      {/* Animated mesh gradient */}
+      <div className="absolute inset-0 pointer-events-none animate-mesh-morph" style={{
+        background: `
+          radial-gradient(ellipse 800px 600px at 30% 40%, rgba(198,165,92,0.06) 0%, transparent 70%),
+          radial-gradient(ellipse 600px 500px at 70% 60%, rgba(184,148,31,0.05) 0%, transparent 70%),
+          radial-gradient(ellipse 500px 400px at 50% 30%, rgba(252,246,186,0.03) 0%, transparent 70%)
+        `,
+      }} />
+
       {/* Perspective grid */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ perspective: '800px' }}>
         <div
@@ -86,15 +96,17 @@ const HeroSection = () => {
         />
       </div>
 
-      {/* Parallax background orbs */}
-      <motion.div style={{ y: orbY1 }} className="absolute top-20 right-[20%] w-[500px] h-[500px] rounded-full pointer-events-none" >
-        <div className="w-full h-full rounded-full animate-float" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.08) 0%, transparent 70%)', filter: 'blur(100px)' }} />
+      {/* Parallax background orbs at 0.5x speed */}
+      <motion.div style={{ y: orbY1 }} className="absolute top-20 right-[20%] w-[500px] h-[500px] rounded-full pointer-events-none">
+        <div className="w-full h-full rounded-full animate-orb-pulse" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.08) 0%, transparent 70%)', filter: 'blur(100px)' }} />
       </motion.div>
       <motion.div style={{ y: orbY2 }} className="absolute bottom-20 left-[10%] w-[400px] h-[400px] rounded-full pointer-events-none">
-        <div className="w-full h-full rounded-full animate-float" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.05) 0%, transparent 70%)', filter: 'blur(100px)', animationDelay: '2.5s' }} />
+        <div className="w-full h-full rounded-full animate-orb-pulse" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.05) 0%, transparent 70%)', filter: 'blur(100px)', animationDelay: '2.5s' }} />
       </motion.div>
-      {/* Extra amber orb */}
-      <div className="absolute top-[40%] left-[50%] w-[300px] h-[300px] rounded-full pointer-events-none animate-float" style={{ background: 'radial-gradient(circle, rgba(217,169,56,0.06) 0%, transparent 70%)', filter: 'blur(120px)', animationDelay: '4s' }} />
+      <motion.div style={{ y: orbY3 }} className="absolute top-[30%] left-[60%] w-[350px] h-[350px] rounded-full pointer-events-none">
+        <div className="w-full h-full rounded-full animate-orb-pulse" style={{ background: 'radial-gradient(circle, rgba(252,246,186,0.04) 0%, transparent 70%)', filter: 'blur(110px)', animationDelay: '4s' }} />
+      </motion.div>
+      <div className="absolute top-[40%] left-[50%] w-[300px] h-[300px] rounded-full pointer-events-none animate-orb-pulse" style={{ background: 'radial-gradient(circle, rgba(217,169,56,0.06) 0%, transparent 70%)', filter: 'blur(120px)', animationDelay: '1s' }} />
 
       <div className="max-w-[1400px] mx-auto px-6 w-full pt-24 pb-16 md:pt-0 md:pb-0">
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -144,16 +156,24 @@ const HeroSection = () => {
 
           {/* Right */}
           <motion.div variants={fadeRight} initial="hidden" animate="show" className="relative flex justify-center">
-            <div className="absolute inset-[-20px] md:inset-[-40px] rounded-full border border-gold/10 animate-rotate-slow pointer-events-none" />
-            <div className="absolute inset-[-50px] md:inset-[-80px] rounded-full border border-gold/5 animate-rotate-slow pointer-events-none" style={{ animationDirection: 'reverse', animationDuration: '45s' }} />
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+              className="absolute inset-[-20px] md:inset-[-40px] rounded-full border border-gold/10 pointer-events-none"
+            />
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
+              className="absolute inset-[-50px] md:inset-[-80px] rounded-full border border-gold/5 pointer-events-none"
+            />
             <div className="absolute -top-8 -right-8 w-[200px] h-[200px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.15) 0%, transparent 70%)', filter: 'blur(60px)' }} />
             <div className="absolute -bottom-8 -left-8 w-[150px] h-[150px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.12) 0%, transparent 70%)', filter: 'blur(50px)' }} />
             <motion.div
               initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
-              className="relative rounded-3xl overflow-hidden w-full max-w-[480px]"
-              style={{ aspectRatio: '4/5', border: '2px solid rgba(198,165,92,0.2)' }}
+              className="relative overflow-hidden w-full max-w-[480px]"
+              style={{ aspectRatio: '4/5', border: '2px solid rgba(198,165,92,0.2)', borderRadius: 32 }}
             >
               <img src={heroImg} alt="Luxury interior design" className="w-full h-full object-cover" width={1024} height={1280} />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,15,0.4) 0%, transparent 40%)' }} />
