@@ -13,13 +13,14 @@ const cardVariants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, delay: i * 0.2, ease: 'easeOut' as const },
+    transition: { duration: 0.7, delay: i * 0.2, type: 'spring' as const, stiffness: 100, damping: 15 },
   }),
 };
 
 const Testimonials = () => (
   <section className="py-20 md:py-36 relative overflow-hidden" style={{ background: '#08080F' }}>
-    <div className="absolute top-[30%] right-[-5%] w-[400px] h-[400px] rounded-full animate-float pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.04) 0%, transparent 70%)', filter: 'blur(110px)', animationDelay: '2s' }} />
+    <div className="absolute top-[30%] right-[-5%] w-[400px] h-[400px] rounded-full animate-orb-pulse pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.04) 0%, transparent 70%)', filter: 'blur(110px)', animationDelay: '2s' }} />
+    <div className="absolute bottom-[20%] left-[-5%] w-[350px] h-[350px] rounded-full animate-orb-pulse pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(252,246,186,0.03) 0%, transparent 70%)', filter: 'blur(100px)', animationDelay: '4s' }} />
     <div className="max-w-[1200px] mx-auto px-6 relative z-10">
       <SectionHeading white="What Our" gold="Clients Say" />
       <div className="mt-16 grid md:grid-cols-3 gap-6">
@@ -32,7 +33,8 @@ const Testimonials = () => (
             viewport={{ once: true, margin: '-50px' }}
             variants={cardVariants}
             whileHover={{ y: -4, borderColor: 'rgba(198,165,92,0.2)' }}
-            className="glass-card rounded-3xl p-8 md:p-10 relative transition-all duration-500"
+            className="glass-card p-8 md:p-10 relative transition-all duration-500"
+            style={{ borderRadius: 32 }}
           >
             <span className="font-playfair text-[80px] leading-none absolute top-4 left-6" style={{ color: 'rgba(198,165,92,0.15)' }}>"</span>
             <motion.div
@@ -57,7 +59,7 @@ const Testimonials = () => (
             <p className="font-inter text-[15px] text-white/65 italic leading-[1.9] font-light">{t.text}</p>
             <div className="mt-6 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full" style={{ background: 'linear-gradient(135deg, #C6A55C, #E8D5A3)', border: '2px solid rgba(198,165,92,0.4)' }} />
+                <div className="w-12 h-12 rounded-full" style={{ background: 'linear-gradient(135deg, #C6A55C, #FCF6BA, #B8941F)', border: '2px solid rgba(198,165,92,0.4)' }} />
                 <div>
                   <p className="font-inter text-base text-white font-semibold">{t.name}</p>
                   <p className="font-inter text-[13px] text-white/40">{t.loc}</p>

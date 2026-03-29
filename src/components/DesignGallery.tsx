@@ -20,7 +20,7 @@ const cardVariants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: (i % 3) * 0.15, ease: 'easeOut' as const },
+    transition: { duration: 0.7, delay: (i % 3) * 0.15, type: 'spring' as const, stiffness: 100, damping: 15 },
   }),
 };
 
@@ -48,12 +48,12 @@ const DesignGallery = () => {
               whileInView="visible"
               viewport={{ once: true, margin: '-30px' }}
               variants={cardVariants}
-              className="relative rounded-2xl overflow-hidden cursor-pointer group mb-4 break-inside-avoid"
-              style={{ aspectRatio: item.ratio }}
+              className="relative overflow-hidden cursor-pointer group mb-4 break-inside-avoid"
+              style={{ aspectRatio: item.ratio, borderRadius: 24 }}
             >
               <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.08]" style={{ background: item.gradient }} />
               <div className="absolute inset-0 bg-[rgba(8,8,15,0.7)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span className="px-4 py-1.5 rounded-full text-[11px] font-inter uppercase tracking-[4px] font-light" style={{ border: '1px solid rgba(198,165,92,0.5)', color: 'rgba(198,165,92,0.8)' }}>{item.cat}</span>
+                <span className="px-4 py-1.5 text-[11px] font-inter uppercase tracking-[4px] font-light" style={{ border: '1px solid rgba(198,165,92,0.5)', color: 'rgba(198,165,92,0.8)', borderRadius: 9999 }}>{item.cat}</span>
               </div>
               <button
                 onClick={(e) => { e.stopPropagation(); toggleLike(i); }}

@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 const CTASection = () => (
   <section className="py-20 md:py-36 relative overflow-hidden" style={{ background: '#0A0A14' }}>
     <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, rgba(198,165,92,0.08) 0%, transparent 70%)' }} />
-    <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full animate-float pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.06) 0%, transparent 70%)', filter: 'blur(100px)' }} />
+    <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full animate-orb-pulse pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.06) 0%, transparent 70%)', filter: 'blur(100px)' }} />
+    <div className="absolute bottom-1/4 left-1/3 w-[350px] h-[350px] rounded-full animate-orb-pulse pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(252,246,186,0.04) 0%, transparent 70%)', filter: 'blur(110px)', animationDelay: '3s' }} />
 
     <div className="relative z-10 text-center max-w-2xl mx-auto px-6">
       <motion.div initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
@@ -12,8 +13,8 @@ const CTASection = () => (
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2, type: 'spring' }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-inter text-[11px] uppercase tracking-[4px] text-gold mb-6 font-light"
-          style={{ border: '1px solid rgba(198,165,92,0.3)', background: 'rgba(198,165,92,0.05)' }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 font-inter text-[11px] uppercase tracking-[4px] text-gold mb-6 font-light"
+          style={{ border: '1px solid rgba(198,165,92,0.3)', background: 'rgba(198,165,92,0.05)', borderRadius: 9999 }}
         >
           ✨ Start Your Journey
         </motion.span>
@@ -22,7 +23,7 @@ const CTASection = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.7 }}
-          className="font-playfair text-[34px] md:text-[60px] font-extrabold leading-tight mt-6"
+          className="font-playfair text-[34px] md:text-[60px] font-extrabold leading-tight mt-6 tracking-[-0.02em]"
         >
           Ready to Transform <span className="gold-shimmer-text shimmer-active" style={{ filter: 'drop-shadow(0 0 20px rgba(198,165,92,0.2))' }}>Your Home?</span>
         </motion.h2>
