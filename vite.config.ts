@@ -19,4 +19,16 @@ export default defineConfig(({ mode }) => ({
     },
     dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom", "react-router-dom", "framer-motion"],
+          ui: ["@radix-ui/react-toast", "@radix-ui/react-tooltip", "sonner"],
+          capacitor: ["@capacitor/core", "@capacitor/camera", "@capacitor/filesystem", "@capacitor/share"],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 600,
+  },
 }));

@@ -43,6 +43,7 @@ const CTASection = () => (
           transition={{ delay: 0.6 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
+          onClick={() => document.getElementById('generate')?.scrollIntoView({ behavior: 'smooth' })}
           className="mt-10 btn-gold-pill text-lg font-playfair font-bold px-14 py-5 animate-pulse-gold cursor-pointer"
         >
           Start Designing Now →
@@ -54,7 +55,7 @@ const CTASection = () => (
           transition={{ delay: 0.8 }}
           className="font-inter text-xs text-white/30 mt-6 uppercase tracking-[4px] font-light"
         >
-          Join 500+ homeowners who already transformed their spaces
+          Start designing your personalized interior concepts today
         </motion.p>
       </motion.div>
     </div>

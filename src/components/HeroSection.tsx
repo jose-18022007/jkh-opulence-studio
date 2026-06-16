@@ -8,8 +8,8 @@ const fadeUp = { hidden: { opacity: 0, y: 40 }, show: { opacity: 1, y: 0, transi
 const fadeRight = { hidden: { opacity: 0, x: 60 }, show: { opacity: 1, x: 0, transition: { duration: 0.8, delay: 0.3, ease: 'easeOut' as const } } };
 
 const trust = [
-  { icon: Sparkles, num: '1000+', label: 'Designs Created' },
-  { icon: Heart, num: '500+', label: 'Happy Homes' },
+  { icon: Sparkles, num: '9+', label: 'Room Types' },
+  { icon: Heart, num: '7+', label: 'Design Themes' },
   { icon: Zap, num: '24/7', label: 'AI Available' },
 ];
 
@@ -122,7 +122,8 @@ const HeroSection = () => {
               <motion.button
                 whileHover={{ scale: 1.05, boxShadow: '0 0 50px rgba(198,165,92,0.5)' }}
                 whileTap={{ scale: 0.97 }}
-                className="btn-gold-pill px-8 md:px-10 py-4 md:py-[18px] text-base md:text-lg font-inter flex items-center gap-2"
+                onClick={() => document.getElementById('generate')?.scrollIntoView({ behavior: 'smooth' })}
+                className="btn-gold-pill px-8 md:px-10 py-4 md:py-[18px] text-base md:text-lg font-inter flex items-center gap-2 cursor-pointer"
                 style={{ boxShadow: '0 0 30px rgba(198,165,92,0.3)' }}
               >
                 <Star size={18} /> Generate Your Design
@@ -130,7 +131,8 @@ const HeroSection = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
-                className="btn-outline-gold px-8 md:px-10 py-4 md:py-[18px] text-base md:text-lg font-inter flex items-center gap-2"
+                onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+                className="btn-outline-gold px-8 md:px-10 py-4 md:py-[18px] text-base md:text-lg font-inter flex items-center gap-2 cursor-pointer"
               >
                 <Play size={18} /> Watch How It Works
               </motion.button>

@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const navLinks = ['Home', 'How It Works', 'Designs', 'Generate', 'About', 'Contact'];
+const navLinks = ['Home', 'How It Works', 'Designs', 'Generate', 'My Designs', 'Contact'];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 100);
@@ -14,10 +17,26 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const scrollTo = (id: string) => {
+  const handleLinkClick = (link: string) => {
     setMobileOpen(false);
-    const el = document.getElementById(id.toLowerCase().replace(/ /g, '-'));
-    el?.scrollIntoView({ behavior: 'smooth' });
+    
+    if (link === 'My Designs') {
+      navigate('/my-designs');
+      return;
+    }
+
+    if (link === 'Contact') {
+      navigate('/contact');
+      return;
+    }
+
+    const targetId = link.toLowerCase().replace(/ /g, '-');
+    if (location.pathname !== '/') {
+      navigate(`/#${targetId}`);
+    } else {
+      const el = document.getElementById(targetId);
+      el?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -49,7 +68,7 @@ const Navbar = () => {
             {navLinks.map(link => (
               <button
                 key={link}
-                onClick={() => scrollTo(link)}
+                onClick={() => handleLinkClick(link)}
                 className="font-inter text-[11px] uppercase tracking-[3px] text-white/60 hover:text-white transition-colors duration-300 cursor-pointer font-light"
               >
                 {link}
@@ -62,7 +81,7 @@ const Navbar = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
-              onClick={() => scrollTo('Generate')}
+              onClick={() => handleLinkClick('Generate')}
               className="hidden md:block btn-gold-pill text-sm px-7 py-2.5 font-inter"
             >
               Start Designing
@@ -99,7 +118,7 @@ const Navbar = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
-                onClick={() => scrollTo(link)}
+                onClick={() => handleLinkClick(link)}
                 className="font-playfair text-3xl text-white/80 hover:text-white transition-colors cursor-pointer"
               >
                 {link}
@@ -109,7 +128,7 @@ const Navbar = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              onClick={() => scrollTo('Generate')}
+              onClick={() => handleLinkClick('Generate')}
               className="btn-gold-pill px-10 py-3 font-inter text-base mt-4"
             >
               Start Designing

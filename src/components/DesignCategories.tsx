@@ -22,7 +22,11 @@ const cardVariants = {
   }),
 };
 
-const DesignCategories = () => (
+interface DesignCategoriesProps {
+  setSelectedRoom: (room: string) => void;
+}
+
+const DesignCategories = ({ setSelectedRoom }: DesignCategoriesProps) => (
   <section id="designs" className="py-20 md:py-36" style={{ background: '#0A0A14' }}>
     <div className="max-w-[1400px] mx-auto px-6">
       <SectionHeading white="Explore Our" gold="Design Categories" sub="From living rooms to kitchens, we design every corner of your dream home" />
@@ -36,10 +40,24 @@ const DesignCategories = () => (
             viewport={{ once: true, margin: '-30px' }}
             variants={cardVariants}
             whileHover={{ scale: 1.03, boxShadow: '0 20px 60px rgba(198,165,92,0.1)' }}
+            onClick={() => {
+              let roomType = 'Living Room';
+              if (cat.name === 'Modern Kitchen') roomType = 'Kitchen';
+              else if (cat.name === 'Bedroom') roomType = 'Bedroom';
+              else if (cat.name === 'TV Unit') roomType = 'TV Unit';
+              else if (cat.name === 'Living Room') roomType = 'Living Room';
+              else if (cat.name === 'Dressing Table') roomType = 'Bedroom';
+              else if (cat.name === 'Wardrobe') roomType = 'Bedroom';
+              else if (cat.name === 'Loft Storage') roomType = 'Living Room';
+              else if (cat.name === 'Ceiling Design') roomType = 'Living Room';
+              
+              setSelectedRoom(roomType);
+              document.getElementById('generate')?.scrollIntoView({ behavior: 'smooth' });
+            }}
             className="relative overflow-hidden cursor-pointer group"
             style={{ aspectRatio: '4/5', borderRadius: 32 }}
           >
-            <div className="absolute inset-0 transition-transform duration-[600ms] group-hover:scale-110" style={{ background: cat.gradient }} />
+            <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110" style={{ background: cat.gradient }} />
             <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,15,0.9) 0%, transparent 60%)' }} />
             <div className="absolute top-4 right-4 w-8 h-8 opacity-20">
               <div className="absolute top-0 right-0 w-full h-px gold-gradient-bg" />

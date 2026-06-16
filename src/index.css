@@ -349,3 +349,38 @@
     animation: mesh-morph 8s ease-in-out infinite;
   }
 }
+
+/* iOS Native App Optimization */
+@supports (padding-top: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  nav.fixed {
+    padding-top: env(safe-area-inset-top);
+    height: calc(4rem + env(safe-area-inset-top));
+  }
+  
+  footer {
+    padding-bottom: calc(2.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Touch responsiveness optimization */
+button, 
+a, 
+input, 
+select, 
+textarea {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Momentum scrolling for local viewports */
+.overflow-y-auto,
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}

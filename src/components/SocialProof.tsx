@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 const items = [
   'Premium Quality ★',
   'AI Powered ⚡',
-  'Expert Craftsmen 🛠',
-  '500+ Projects ✓',
-  '100% Satisfaction 💎',
+  'Expert Design Guidance 🛠',
+  'Instant Visualization ✓',
+  '100% Personalization 💎',
 ];
 
 const SocialProof = () => (

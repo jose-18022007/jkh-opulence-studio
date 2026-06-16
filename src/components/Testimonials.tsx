@@ -1,11 +1,23 @@
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { ShieldCheck, Cpu, ClipboardCheck } from 'lucide-react';
 import SectionHeading from './SectionHeading';
 
-const testimonials = [
-  { text: "JKH Interior completely transformed our living room. The AI suggestions were spot-on, and the execution by their team was flawless. Our home feels like a luxury hotel now.", name: 'Priya Sharma', loc: 'Chennai, TN' },
-  { text: "I was skeptical about AI-designed interiors, but JKH proved me wrong. They redesigned our entire kitchen in a style I never imagined. Absolutely world-class quality and service.", name: 'Rajesh Kumar', loc: 'Bangalore, KA' },
-  { text: "From the initial AI-generated concepts to the final handover, everything was seamless. The attention to detail and use of premium materials made all the difference. Highly recommend!", name: 'Anitha Menon', loc: 'Kochi, KL' },
+const promises = [
+  { 
+    icon: Cpu, 
+    title: "Precision AI Engine", 
+    text: "Our models analyze structural boundaries, light angles, and door openings, ensuring all generated designs are structurally realistic and constructible." 
+  },
+  { 
+    icon: ShieldCheck, 
+    title: "Artisan Partnership", 
+    text: "We bridge the gap between concept and reality by partnering with certified modular manufacturers and local carpenters to execute designs." 
+  },
+  { 
+    icon: ClipboardCheck, 
+    title: "Documented Curation", 
+    text: "No abstract mockups. Each rendering translates to specific material grades, paints, finishes, and smart lighting designs that can be sourced locally." 
+  },
 ];
 
 const cardVariants = {
@@ -22,9 +34,9 @@ const Testimonials = () => (
     <div className="absolute top-[30%] right-[-5%] w-[400px] h-[400px] rounded-full animate-orb-pulse pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(198,165,92,0.04) 0%, transparent 70%)', filter: 'blur(110px)', animationDelay: '2s' }} />
     <div className="absolute bottom-[20%] left-[-5%] w-[350px] h-[350px] rounded-full animate-orb-pulse pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(252,246,186,0.03) 0%, transparent 70%)', filter: 'blur(100px)', animationDelay: '4s' }} />
     <div className="max-w-[1200px] mx-auto px-6 relative z-10">
-      <SectionHeading white="What Our" gold="Clients Say" />
+      <SectionHeading white="Our Design" gold="Guarantees" sub="Crafting premium interiors with structural honesty and execution clarity" />
       <div className="mt-16 grid md:grid-cols-3 gap-6">
-        {testimonials.map((t, i) => (
+        {promises.map((p, i) => (
           <motion.div
             key={i}
             custom={i}
@@ -32,39 +44,22 @@ const Testimonials = () => (
             whileInView="visible"
             viewport={{ once: true, margin: '-50px' }}
             variants={cardVariants}
-            whileHover={{ y: -4, borderColor: 'rgba(198,165,92,0.2)' }}
-            className="glass-card p-8 md:p-10 relative transition-all duration-500"
+            whileHover={{ y: -6, borderColor: 'rgba(198,165,92,0.25)', boxShadow: '0 10px 30px rgba(198,165,92,0.05)' }}
+            className="glass-card p-8 md:p-10 relative transition-all duration-500 border border-white/5 flex flex-col"
             style={{ borderRadius: 32 }}
           >
-            <span className="font-playfair text-[80px] leading-none absolute top-4 left-6" style={{ color: 'rgba(198,165,92,0.15)' }}>"</span>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 + i * 0.2 }}
-              className="flex gap-1 mb-4 mt-8"
+            <div 
+              className="w-14 h-14 rounded-full flex items-center justify-center mb-6"
+              style={{ border: '2px solid rgba(198,165,92,0.35)', background: 'rgba(198,165,92,0.03)' }}
             >
-              {[...Array(5)].map((_, j) => (
-                <motion.div
-                  key={j}
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 + i * 0.2 + j * 0.08, type: 'spring', stiffness: 300 }}
-                >
-                  <Star size={16} className="fill-gold text-gold" />
-                </motion.div>
-              ))}
-            </motion.div>
-            <p className="font-inter text-[15px] text-white/65 italic leading-[1.9] font-light">{t.text}</p>
-            <div className="mt-6 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full" style={{ background: 'linear-gradient(135deg, #C6A55C, #FCF6BA, #B8941F)', border: '2px solid rgba(198,165,92,0.4)' }} />
-                <div>
-                  <p className="font-inter text-base text-white font-semibold">{t.name}</p>
-                  <p className="font-inter text-[13px] text-white/40">{t.loc}</p>
-                </div>
-              </div>
+              <p.icon size={24} className="text-gold" />
+            </div>
+            
+            <h3 className="font-playfair text-xl md:text-2xl font-bold text-white mb-4 tracking-[-0.02em]">{p.title}</h3>
+            <p className="font-inter text-[14px] text-white/55 leading-[1.8] font-light flex-1">{p.text}</p>
+            
+            <div className="mt-6 pt-5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+              <span className="font-inter text-[11px] text-gold uppercase tracking-[2px] font-medium">JKH Guarantee ✓</span>
             </div>
           </motion.div>
         ))}

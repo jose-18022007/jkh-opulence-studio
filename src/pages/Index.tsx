@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import SocialProof from '@/components/SocialProof';
@@ -18,6 +19,21 @@ import LoadingScreen from '@/components/LoadingScreen';
 
 const Index = () => {
   const [loaded, setLoaded] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState('Living Room');
+  const location = useLocation();
+
+  useEffect(() => {
+    if (loaded && location.hash) {
+      const targetId = location.hash.slice(1);
+      const el = document.getElementById(targetId);
+      if (el) {
+        // Safe timeout to wait for dom components layout
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+      }
+    }
+  }, [loaded, location]);
 
   return (
     <div className="noise-overlay relative">
@@ -66,17 +82,17 @@ const Index = () => {
         <SocialProof />
         <HowItWorks />
         <div className="gold-divider" />
-        <DesignCategories />
+        <DesignCategories setSelectedRoom={setSelectedRoom} />
         <BeforeAfter />
         <DesignGallery />
         <div className="gold-divider" />
-        <AIGenerator />
+        <AIGenerator room={selectedRoom} setRoom={setSelectedRoom} />
         <Testimonials />
         <Statistics />
         <AboutSection />
         <CTASection />
         <ContactSection />
-        <Footer />
+        <Footer setSelectedRoom={setSelectedRoom} />
       </div>
       <FloatingElements />
     </div>
