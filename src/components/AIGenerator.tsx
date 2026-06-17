@@ -34,26 +34,40 @@ const createPrompt = (roomType: string, designStyle: string) => {
   const roomLower = roomType.toLowerCase();
   if (roomLower === "tv unit") {
     return (
-      `Sleek and premium ${designStyle.toLowerCase()} style TV unit wall design. ` +
-      `Keep the wall layout, the TV screen, and the room structure exactly the same. ` +
-      `Redesign the dark wood wall background into a high-end ${designStyle.toLowerCase()} accent wall paneling (such as premium white marble cladding, fluted wood paneling, or sleek matte lacquer). ` +
-      `Replace the space below the TV with a clean floating console cabinet. ` +
-      `Do not add any chairs, desks, clutter, or extra furniture in the foreground. Keep the floor space in front of the TV unit open and completely clean. ` +
-      `Add subtle, warm indirect LED strip backlighting behind the panels. Minimalist, premium, professional architectural interior photography, high resolution.`
+      `Premium ${designStyle.toLowerCase()} TV unit transformation with architectural depth. ` +
+      `Maintain existing TV placement and wall structure. ` +
+      `Transform wall background with sophisticated materials: ${designStyle === 'Modern' ? 'fluted aluminum paneling with hidden LED strips' : designStyle === 'Luxury' ? 'custom marble veining with gold accents' : designStyle === 'Traditional' ? 'rich wood paneling with crown molding' : 'minimalist concrete with brushed steel trim'}. ` +
+      `Create multi-functional entertainment center with integrated storage solutions. ` +
+      `Add ambient lighting: ${designStyle === 'Modern' ? 'RGB LED backlighting with motion sensors' : designStyle === 'Luxury' ? 'warm amber crystal fixtures' : 'soft cove lighting'}. ` +
+      `Incorporate smart home controls and cable management systems. ` +
+      `Professional architectural photography, high-end interior design, photorealistic rendering.`
     );
-  } else if (roomLower.includes("wardrobe") || roomLower.includes("kitchen")) {
+  } else if (roomLower.includes("kitchen") || roomLower.includes("dining")) {
     return (
-      `Modify and redesign this ${roomType.toLowerCase()} cabinets and style into a stunning, clean ${designStyle.toLowerCase()} design. ` +
-      `Keep the original room layout, walls, and ceiling structure identical. ` +
-      `Only change the cabinet door designs, materials (such as matte acrylic, premium veneer, or glass panels), handles, and countertops. ` +
-      `Do not add clutter or extra items. Professional interior design rendering, clean and spacious, high-end materials, neat and organized.`
+      `Gourmet kitchen and dining area transformation in ${designStyle.toLowerCase()} style. ` +
+      `Preserve existing layout and traffic flow patterns. ` +
+      `Revolutionize kitchen: ${designStyle === 'Modern' ? 'sleek quartz countertops with undermount sinks, touchless faucets' : designStyle === 'Luxury' ? 'custom marble islands with professional-grade appliances' : designStyle === 'Traditional' ? 'classic hardwood cabinets with brass hardware' : 'open shelving with industrial fixtures'}. ` +
+      `Enhance dining experience: ${designStyle === 'Modern' ? 'extendable glass table with ergonomic chairs' : designStyle === 'Luxury' ? 'handcrafted walnut dining set with crystal chandelier' : designStyle === 'Traditional' ? 'reclaimed wood table with upholstered seating' : 'rustic farmhouse table with bench seating'}. ` +
+      `Integrate smart storage solutions and energy-efficient lighting. ` +
+      `Professional kitchen design rendering, architectural visualization, high-end materials.`
+    );
+  } else if (roomLower.includes("wardrobe") || roomLower.includes("closet")) {
+    return (
+      `Master closet and wardrobe organization system in ${designStyle.toLowerCase()} aesthetic. ` +
+      `Optimize existing space utilization and flow. ` +
+      `Design comprehensive storage: ${designStyle === 'Modern' ? 'walk-in robe with modular shelving and smart mirrors' : designStyle === 'Luxury' ? 'custom tailored closets with leather drawers and jewelry compartments' : designStyle === 'Traditional' ? 'built-in wooden units with glass-front cabinets' : 'floating storage solutions with industrial racks'}. ` +
+      `Add luxury features: ${designStyle === 'Modern' ? 'LED-lit zones and automated opening mechanisms' : designStyle === 'Luxury' ? 'perfume diffuser corners and shoe racks' : 'soft-close drawers and fabric organizers'}. ` +
+      `Create dressing area with ${designStyle === 'Modern' ? 'bench seating and integrated lighting' : designStyle === 'Luxury' ? 'ottoman storage and makeup vanity' : 'traditional bench with cushions'}. ` +
+      `Professional organization design, space optimization, luxury closet solutions.`
     );
   } else {
     return (
-      `Modify and transform this ${roomType.toLowerCase()} into a stunning, clutter-free ${designStyle.toLowerCase()} interior design. ` +
-      `Keep the original room structure, walls, windows, and architectural layout identical. ` +
-      `Redesign the furniture, style, lighting, and decoration to be ${designStyle.toLowerCase()}. ` +
-      `Keep the layout spacious, modern, and clean. Professional interior photography, high-end furniture, architectural digest quality, photorealistic.`
+      `Complete ${designStyle.toLowerCase()} interior transformation for ${roomType}. ` +
+      `Respect existing architectural elements: ceiling height, window placements, and structural walls. ` +
+      `Revolutionize furniture arrangement: ${designStyle === 'Modern' ? 'minimalist layout with floating furniture and open floor plans' : designStyle === 'Luxury' ? 'symmetrical arrangements with statement pieces and rich textures' : designStyle === 'Traditional' ? 'classic layering with heirloom furniture and warm tones' : 'eclectic mix with bold accent pieces'}. ` +
+      `Enhance lighting: ${designStyle === 'Modern' ? 'embedded LED strips and smart controls' : designStyle === 'Luxury' ? 'chandelier focal points with layered lighting' : 'sconce lighting and natural light optimization'}. ` +
+      `Add ${designStyle === 'Modern' ? 'technology integration and smart home features' : designStyle === 'Luxury' ? 'artisan craftsmanship and bespoke details' : 'textile richness and decorative elements'}. ` +
+      `Create spatial flow and functional zones. Professional interior photography, architectural design, photorealistic rendering.`
     );
   }
 };
