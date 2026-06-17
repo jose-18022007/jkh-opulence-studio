@@ -198,9 +198,8 @@ export const MyDesigns = () => {
           });
         }
       }
-    } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : String(error);
-      if (msg !== 'Share canceled') {
+    } catch (error: any) {
+      if (error.message !== 'Share canceled') {
         console.error('Sharing failed:', error);
         toast({
           title: "Share Failed",
@@ -356,28 +355,28 @@ export const MyDesigns = () => {
                       <button
                         onClick={() => setSelectedDesign(creation)}
                         className="w-10 h-10 rounded-full gold-gradient-bg flex items-center justify-center text-dark-primary hover:scale-110 transition-transform cursor-pointer"
-                        aria-label="Compare original and redesign"
+                        title="Compare Original/Redesign"
                       >
                         <Eye size={16} />
                       </button>
                       <button
                         onClick={(e) => handleDownload(creation, e)}
                         className="w-10 h-10 rounded-full bg-white/5 border border-white/20 flex items-center justify-center text-white hover:bg-white/15 hover:scale-110 transition-transform cursor-pointer"
-                        aria-label="Download high resolution"
+                        title="Download High-Res"
                       >
                         <Download size={16} />
                       </button>
                       <button
                         onClick={(e) => handleShare(creation, e)}
                         className="w-10 h-10 rounded-full bg-white/5 border border-white/20 flex items-center justify-center text-white hover:bg-white/15 hover:scale-110 transition-transform cursor-pointer"
-                        aria-label="Share design"
+                        title="Share Design"
                       >
                         <Share2 size={16} />
                       </button>
                       <button
                         onClick={(e) => handleDelete(creation.id, e)}
                         className="w-10 h-10 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white hover:scale-110 transition-transform cursor-pointer"
-                        aria-label="Delete design permanently"
+                        title="Delete Permanently"
                       >
                         <Trash2 size={16} />
                       </button>

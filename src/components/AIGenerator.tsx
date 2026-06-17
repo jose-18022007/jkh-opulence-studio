@@ -60,38 +60,41 @@ const createPrompt = (roomType: string, designStyle: string) => {
 
 // Client-side Pollinations uploader
 const uploadToPollinations = async (file: File): Promise<string> => {
+  const apiKey = import.meta.env.VITE_POLLINATIONS_API_KEY || "sk_Q3CiZkqjyp54NV3JaO7nafrjD5YlxwbF";
   const response = await fetch("https://media.pollinations.ai/upload", {
     method: "POST",
     headers: {
-      "Content-Type": file.type
+      "Content-Type": file.type,
+      "Authorization": `Bearer ${apiKey}`
     },
     body: file
-      });
+  });
   
   if (!response.ok) {
     throw new Error("Failed to upload source image to Pollinations Media Storage.");
   }
   
-  let mediaUrl = await response.text();
-  mediaUrl = mediaUrl.trim();
-  
-  if (!mediaUrl.startsWith("http")) {
-    mediaUrl = `https://media.pollinations.ai/${mediaUrl}`;
+  const result = await response.json();
+  const mediaUrl = result.url || (result.id ? `https://media.pollinations.ai/${result.id}` : "");
+  if (!mediaUrl) {
+    throw new Error("Malformed response from Pollinations Media Storage.");
   }
   return mediaUrl;
 };
 
 // Direct client-side AI image-to-image edit
 const generateSingleDesign = async (prompt: string, mediaUrl: string, seed: number): Promise<string> => {
-  const response = await fetch("https://gen.pollinations.ai/v1/images/edits", {
+  const apiKey = import.meta.env.VITE_POLLINATIONS_API_KEY || "sk_Q3CiZkqjyp54NV3JaO7nafrjD5YlxwbF";
+  const response = await fetch("https://gen.pollinations.ai/v1/images/generations", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey}`
     },
     body: JSON.stringify({
       prompt: prompt,
       image: mediaUrl,
-      model: "flux",
+      model: "klein",
       size: "1024x1024",
       response_format: "b64_json",
       n: 1,

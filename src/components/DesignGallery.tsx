@@ -4,7 +4,6 @@ import { Heart, Download, Eye, Sparkles, Loader2, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import SectionHeading from './SectionHeading';
 import { getCreations } from '@/lib/db';
-import type { Creation } from '@/lib/db';
 
 // Import local room assets for showcase
 import lrAfter from '@/assets/living-room-after.png';
@@ -38,18 +37,14 @@ const DesignGallery = () => {
   const navigate = useNavigate();
   const [liked, setLiked] = useState<Set<number>>(new Set());
   const [activeTab, setActiveTab] = useState<'inspiration' | 'creations'>('inspiration');
-  const [creations, setCreations] = useState<Creation[]>([]);
+  const [creations, setCreations] = useState<any[]>([]);
   const [isLoadingCreations, setIsLoadingCreations] = useState(false);
-  const [selectedCreation, setSelectedCreation] = useState<Creation | null>(null);
+  const [selectedCreation, setSelectedCreation] = useState<any | null>(null);
 
   const toggleLike = (i: number) => {
     setLiked(prev => {
       const n = new Set(prev);
-      if (n.has(i)) {
-        n.delete(i);
-      } else {
-        n.add(i);
-      }
+      n.has(i) ? n.delete(i) : n.add(i);
       return n;
     });
   };

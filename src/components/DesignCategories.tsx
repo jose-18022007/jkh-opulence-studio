@@ -57,7 +57,7 @@ const DesignCategories = ({ setSelectedRoom }: DesignCategoriesProps) => (
             className="relative overflow-hidden cursor-pointer group"
             style={{ aspectRatio: '4/5', borderRadius: 32 }}
           >
-            <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110" style={{ background: cat.gradient }} />
+            <div className="absolute inset-0 transition-transform duration-[600ms] group-hover:scale-110" style={{ background: cat.gradient }} />
             <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,15,0.9) 0%, transparent 60%)' }} />
             <div className="absolute top-4 right-4 w-8 h-8 opacity-20">
               <div className="absolute top-0 right-0 w-full h-px gold-gradient-bg" />

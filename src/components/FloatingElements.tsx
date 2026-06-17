@@ -40,7 +40,6 @@ const FloatingElements = () => {
           onHoverEnd={() => setShowTooltip(false)}
           className="w-[60px] h-[60px] rounded-full flex items-center justify-center cursor-pointer animate-pulse-gold"
           style={{ background: '#25D366', boxShadow: '0 8px 24px rgba(37,211,102,0.3)' }}
-          aria-label="Chat on WhatsApp"
         >
           <MessageCircle size={26} className="text-white" />
         </motion.a>
@@ -57,7 +56,6 @@ const FloatingElements = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             className="fixed bottom-[104px] right-8 z-40 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer"
-            aria-label="Scroll to top"
             style={{ background: 'rgba(8,8,15,0.85)', border: '1.5px solid rgba(198,165,92,0.3)', backdropFilter: 'blur(12px)' }}
           >
             <ArrowUp size={20} className="text-gold" />

@@ -138,11 +138,11 @@ const ContactSection = () => {
         });
         setForm({ name: '', phone: '', email: '', service: '', message: '' });
       }
-    } catch (error: unknown) {
+    } catch (error: any) {
       console.error("Submission failed:", error);
       toast({
         title: "Submission Error",
-        description: error instanceof Error ? error.message : "Failed to submit contact request. Please check your network.",
+        description: error.message || "Failed to submit contact request. Please check your network.",
         variant: "destructive",
       });
     } finally {
