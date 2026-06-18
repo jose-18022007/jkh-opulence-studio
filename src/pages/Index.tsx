@@ -4,7 +4,6 @@ import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import SocialProof from '@/components/SocialProof';
 import HowItWorks from '@/components/HowItWorks';
-import DesignCategories from '@/components/DesignCategories';
 import BeforeAfter from '@/components/BeforeAfter';
 import DesignGallery from '@/components/DesignGallery';
 import AIGenerator from '@/components/AIGenerator';
@@ -82,7 +81,6 @@ const Index = () => {
         <SocialProof />
         <HowItWorks />
         <div className="gold-divider" />
-        <DesignCategories setSelectedRoom={setSelectedRoom} />
         <BeforeAfter />
         <DesignGallery />
         <div className="gold-divider" />

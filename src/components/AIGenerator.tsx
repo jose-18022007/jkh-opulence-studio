@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, Sparkles, X, Loader2, Eye, Download, Camera as CameraIcon, Image as ImageIcon } from 'lucide-react';
+import { Upload, Sparkles, X, Loader2, Eye, Download, Camera as CameraIcon, Image as ImageIcon, Check } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { saveCreation } from '@/lib/db';
 import type { Creation } from '@/lib/db';
@@ -8,6 +8,7 @@ import { Capacitor } from '@capacitor/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { prepareUploadBlob, optimizeImage } from '@/lib/imageOptimizer';
 import GenerationLoader from './GenerationLoader';
+import { analyzeRoomWithGemini } from '@/lib/gemini';
 
 const roomTypes = ['Living Room', 'Bedroom', 'Kitchen', 'Bathroom', 'Dining', 'Office', 'Kids Room', 'Pooja Room', 'TV Unit'];
 const styles = ['Modern', 'Minimalist', 'Traditional', 'Luxury', 'Contemporary', 'Scandinavian', 'Industrial'];
@@ -146,8 +147,32 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
   const [originalImageUrl, setOriginalImageUrl] = useState<string | null>(null);
   const [selectedDesign, setSelectedDesign] = useState<Creation | null>(null);
 
+  // Gemini Room Analysis Loading Stepper states
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [activeAnalysisStage, setActiveAnalysisStage] = useState(0);
+
+  const analysisStages = [
+    "Analyzing Room...",
+    "Detecting Layout...",
+    "Planning Design Improvements...",
+    "Generating Personalized Design Prompt..."
+  ];
+
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  const handleUploadClick = (type: 'camera' | 'gallery') => {
+    if (Capacitor.isNativePlatform()) {
+      pickImageNatively(type === 'camera' ? 'camera' : 'photos');
+    } else {
+      if (type === 'camera') {
+        cameraInputRef.current?.click();
+      } else {
+        fileInputRef.current?.click();
+      }
+    }
+  };
 
   const handleFileSelect = (file: File) => {
     // Validate file type
@@ -240,6 +265,9 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+    if (cameraInputRef.current) {
+      cameraInputRef.current.value = '';
+    }
   };
 
   const downloadImage = async (url: string, filename: string) => {
@@ -294,9 +322,6 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
       return;
     }
 
-    setIsGenerating(true);
-    setGeneratedDesigns([]);
-
     try {
       toast({
         title: "Optimizing Image...",
@@ -306,8 +331,43 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
       // Compress upload file to WebP
       const optimizedBlob = await prepareUploadBlob(uploadedImage, 1024, 1024, 0.8);
       
-      // Generate optimized WebP base64 of the original room photo to store locally in database history
+      // Generate optimized WebP base64 of the original room photo to store locally in database history and for Gemini Vision
       const originalWebpBase64 = await optimizeImage(uploadedImage, 1024, 1024, 0.7);
+
+      // Now run Gemini analysis
+      setIsAnalyzing(true);
+      setActiveAnalysisStage(0);
+      setGeneratedDesigns([]);
+
+      // Set up timer intervals to smoothly transition through the 4 stages
+      const stageTimer = setInterval(() => {
+        setActiveAnalysisStage((prev) => {
+          if (prev < 3) return prev + 1;
+          return prev;
+        });
+      }, 1500);
+
+      let finalPrompt = "";
+      try {
+        console.log("🚀 Starting Gemini Vision analysis...");
+        const geminiResult = await analyzeRoomWithGemini(originalWebpBase64, room, style);
+        
+        if (geminiResult && geminiResult.success && geminiResult.enhancedPrompt) {
+          // Combination strategy: Selected Room Type + Selected Style + Gemini enhancedPrompt
+          finalPrompt = `${room} in ${style} style. ${geminiResult.enhancedPrompt}`;
+          console.log("✅ Gemini analysis succeeded. Enhanced Prompt:", finalPrompt);
+        } else {
+          throw new Error("Invalid response or missing enhancedPrompt from Gemini.");
+        }
+      } catch (geminiError) {
+        console.error("⚠️ Gemini analysis failed, falling back to static prompt template:", geminiError);
+        // Fallback: Use existing prompt builder
+        finalPrompt = createPrompt(room, style);
+      } finally {
+        clearInterval(stageTimer);
+        setIsAnalyzing(false);
+        setIsGenerating(true);
+      }
 
       toast({
         title: "Uploading Image...",
@@ -324,14 +384,13 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
       });
 
       // 2. Prepare rendering values
-      const prompt = createPrompt(room, style);
       const numDesigns = parseInt(count, 10);
       const resultsList = [];
 
       // Generate sequential variations using random seeds
       for (let i = 0; i < numDesigns; i++) {
         const seed = Math.floor(Math.random() * 10000000) + i;
-        const base64DataUrl = await generateSingleDesign(prompt, mediaUrl, seed);
+        const base64DataUrl = await generateSingleDesign(finalPrompt, mediaUrl, seed);
         
         const creationItem = {
           id: crypto.randomUUID(),
@@ -414,7 +473,95 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
         </motion.div>
 
         <AnimatePresence mode="wait">
-          {isGenerating ? (
+          {isAnalyzing ? (
+            <motion.div
+              key="analyzer-loader"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.4 }}
+              className="mt-12 max-w-[800px] mx-auto"
+            >
+              <div className="w-full glass-card-gold p-8 md:p-12 relative overflow-hidden" style={{ borderRadius: 32 }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-gold/5 via-transparent to-transparent pointer-events-none" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10">
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="w-full max-w-sm aspect-[4/3] rounded-2xl overflow-hidden bg-black/40 border border-gold/20 relative shadow-[0_0_40px_rgba(198,165,92,0.15)]">
+                      {imagePreview ? (
+                        <img 
+                          src={imagePreview} 
+                          alt="Analyzing room" 
+                          className="w-full h-full object-cover opacity-60 filter saturate-50"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-white/20">
+                          Analyzing empty space...
+                        </div>
+                      )}
+                      <motion.div 
+                        initial={{ top: '0%' }}
+                        animate={{ top: '100%' }}
+                        transition={{
+                          duration: 2.0,
+                          repeat: Infinity,
+                          repeatType: 'reverse',
+                          ease: 'easeInOut'
+                        }}
+                        className="absolute left-0 right-0 h-1 gold-gradient-bg z-20 shadow-[0_0_15px_#C6A55C,0_0_30px_#C6A55C]"
+                      />
+                      <div className="absolute inset-0 bg-[linear-gradient(rgba(198,165,92,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(198,165,92,0.05)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
+                      <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between px-3 py-2 bg-black/80 backdrop-blur-sm border border-white/10 rounded-lg">
+                        <span className="font-inter text-[10px] uppercase text-white/60 tracking-[2px]">{room}</span>
+                        <span className="font-inter text-[10px] text-gold font-medium flex items-center gap-1">
+                          <Loader2 size={10} className="animate-spin" /> ANALYZING...
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-center">
+                    <div className="mb-6">
+                      <h3 className="font-playfair text-2xl font-bold text-white flex items-center gap-2">
+                        AI Room <span className="gold-gradient-text">Analysis</span>
+                      </h3>
+                      <p className="font-inter text-[13px] text-white/40 mt-1 uppercase tracking-[2px]">
+                        Google Gemini Vision is studying your space
+                      </p>
+                    </div>
+                    
+                    {/* Stepper Checklist */}
+                    <div className="space-y-4">
+                      {analysisStages.map((stage, idx) => {
+                        const isCompleted = idx < activeAnalysisStage;
+                        const isActive = idx === activeAnalysisStage;
+                        return (
+                          <div key={idx} className={`flex items-center gap-4 transition-all duration-300 ${isActive ? 'scale-[1.02]' : ''}`}>
+                            <div className="relative shrink-0">
+                              {isCompleted ? (
+                                <div className="w-6 h-6 rounded-full bg-gold flex items-center justify-center text-dark-primary shadow-[0_0_10px_rgba(198,165,92,0.4)]">
+                                  <Check size={14} className="stroke-[3]" />
+                                </div>
+                              ) : isActive ? (
+                                <div className="w-6 h-6 rounded-full border border-gold bg-gold/10 flex items-center justify-center text-gold shadow-[0_0_10px_rgba(198,165,92,0.2)]">
+                                  <Loader2 size={12} className="animate-spin" />
+                                </div>
+                              ) : (
+                                <div className="w-6 h-6 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/20">
+                                  <span className="text-[10px] font-inter font-bold">{idx + 1}</span>
+                                </div>
+                              )}
+                            </div>
+                            <span className={`font-inter text-sm ${isActive ? 'text-white font-medium' : isCompleted ? 'text-white/60 line-through decoration-gold/30' : 'text-white/30 font-light'}`}>
+                              {stage}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ) : isGenerating ? (
             <motion.div
               key="loader"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -471,39 +618,25 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
                     <Upload size={48} className="mx-auto text-gold mb-4" />
                     <p className="font-inter text-lg text-white font-semibold">Drop your room photo here</p>
                     
-                    {Capacitor.isNativePlatform() ? (
-                      <div className="flex flex-col sm:flex-row gap-3 justify-center mt-5">
-                        <motion.button 
-                          whileHover={{ scale: 1.03 }} 
-                          whileTap={{ scale: 0.97 }} 
-                          onClick={() => pickImageNatively('camera')}
-                          className="btn-gold-pill px-6 py-2.5 font-inter text-sm cursor-pointer flex items-center gap-2 justify-center"
-                        >
-                          <CameraIcon size={16} /> Take Photo
-                        </motion.button>
-                        <motion.button 
-                          whileHover={{ scale: 1.03 }} 
-                          whileTap={{ scale: 0.97 }} 
-                          onClick={() => pickImageNatively('photos')}
-                          className="btn-outline-gold px-6 py-2.5 font-inter text-sm cursor-pointer flex items-center gap-2 justify-center"
-                        >
-                          <ImageIcon size={16} /> Gallery Photo
-                        </motion.button>
-                      </div>
-                    ) : (
-                      <>
-                        <p className="font-inter text-sm text-white/30 my-3">or</p>
-                        <motion.button 
-                          whileHover={{ scale: 1.05 }} 
-                          whileTap={{ scale: 0.97 }} 
-                          onClick={() => fileInputRef.current?.click()}
-                          className="btn-gold-pill px-8 py-2.5 font-inter text-sm cursor-pointer"
-                        >
-                          Browse Files
-                        </motion.button>
-                      </>
-                    )}
-                    <p className="font-inter text-[13px] text-white/30 mt-4">Supports JPG, PNG up to 10MB</p>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center mt-5">
+                      <motion.button 
+                        whileHover={{ scale: 1.03 }} 
+                        whileTap={{ scale: 0.97 }} 
+                        onClick={() => handleUploadClick('camera')}
+                        className="btn-gold-pill px-6 py-2.5 font-inter text-sm cursor-pointer flex items-center gap-2 justify-center"
+                      >
+                        <CameraIcon size={16} /> Camera
+                      </motion.button>
+                      <motion.button 
+                        whileHover={{ scale: 1.03 }} 
+                        whileTap={{ scale: 0.97 }} 
+                        onClick={() => handleUploadClick('gallery')}
+                        className="btn-outline-gold px-6 py-2.5 font-inter text-sm cursor-pointer flex items-center gap-2 justify-center"
+                      >
+                        <ImageIcon size={16} /> Gallery
+                      </motion.button>
+                    </div>
+                    <p className="font-inter text-[13px] text-white/35 mt-4">Supports JPG, PNG up to 10MB</p>
                   </>
                 )}
                 
@@ -511,6 +644,14 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
                   ref={fileInputRef}
                   type="file"
                   accept="image/*"
+                  onChange={handleFileInputChange}
+                  className="hidden"
+                />
+                <input
+                  ref={cameraInputRef}
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
                   onChange={handleFileInputChange}
                   className="hidden"
                 />
@@ -659,9 +800,9 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
                   <div className="flex flex-col gap-3">
                     <span className="font-inter text-xs uppercase tracking-[2.5px] text-white/35 font-light">Original Room</span>
                     <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-black/30 border border-white/5 shadow-inner">
-                      {originalImageUrl ? (
+                      {(selectedDesign.original_url || originalImageUrl) ? (
                         <img
-                          src={originalImageUrl}
+                          src={selectedDesign.original_url || originalImageUrl || ""}
                           alt="Original uploaded room"
                           className="w-full h-full object-cover"
                         />

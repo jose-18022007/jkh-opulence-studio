@@ -9,6 +9,7 @@ import MyDesigns from "./pages/MyDesigns.tsx";
 import Contact from "./pages/Contact.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import TermsConditions from "./pages/TermsConditions.tsx";
+import InstallPrompt from "@/components/InstallPrompt";
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <InstallPrompt />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
