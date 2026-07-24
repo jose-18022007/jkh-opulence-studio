@@ -19,11 +19,10 @@ const Pill = ({ label, selected, onClick }: { label: string; selected: boolean; 
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.97 }}
     onClick={onClick}
-    className={`px-5 py-2.5 font-inter text-sm cursor-pointer transition-all duration-300 ${
-      selected
+    className={`px-5 py-2.5 font-inter text-sm cursor-pointer transition-all duration-300 ${selected
         ? 'gold-gradient-bg text-dark-primary font-semibold shadow-[0_0_20px_rgba(198,165,92,0.3)]'
         : 'bg-white/5 text-white/70 border border-white/10 hover:border-white/20'
-    }`}
+      }`}
     style={{ borderRadius: 9999 }}
   >
     {label}
@@ -74,21 +73,25 @@ const createPrompt = (roomType: string, designStyle: string) => {
 };
 
 // Client-side Pollinations uploader
-const uploadToPollinations = async (file: File): Promise<string> => {
-  const apiKey = import.meta.env.VITE_POLLINATIONS_API_KEY || "sk_Q3CiZkqjyp54NV3JaO7nafrjD5YlxwbF";
+const uploadToPollinations = async (file: Blob): Promise<string> => {
+  const envKey = import.meta.env.VITE_POLLINATIONS_API_KEY;
+  const apiKey = envKey && envKey !== "YOUR_KEY" ? envKey : "sk_Q3CiZkqjyp54NV3JaO7nafrjD5YlxwbF";
+
+  const formData = new FormData();
+  formData.append("file", file, "image.webp");
+
   const response = await fetch("https://media.pollinations.ai/upload", {
     method: "POST",
     headers: {
-      "Content-Type": file.type,
       "Authorization": `Bearer ${apiKey}`
     },
-    body: file
+    body: formData
   });
-  
+
   if (!response.ok) {
     throw new Error("Failed to upload source image to Pollinations Media Storage.");
   }
-  
+
   const result = await response.json();
   const mediaUrl = result.url || (result.id ? `https://media.pollinations.ai/${result.id}` : "");
   if (!mediaUrl) {
@@ -99,7 +102,8 @@ const uploadToPollinations = async (file: File): Promise<string> => {
 
 // Direct client-side AI image-to-image edit
 const generateSingleDesign = async (prompt: string, mediaUrl: string, seed: number): Promise<string> => {
-  const apiKey = import.meta.env.VITE_POLLINATIONS_API_KEY || "sk_Q3CiZkqjyp54NV3JaO7nafrjD5YlxwbF";
+  const envKey = import.meta.env.VITE_POLLINATIONS_API_KEY;
+  const apiKey = envKey && envKey !== "YOUR_KEY" ? envKey : "sk_Q3CiZkqjyp54NV3JaO7nafrjD5YlxwbF";
   const response = await fetch("https://gen.pollinations.ai/v1/images/generations", {
     method: "POST",
     headers: {
@@ -116,11 +120,11 @@ const generateSingleDesign = async (prompt: string, mediaUrl: string, seed: numb
       seed: seed
     })
   });
-  
+
   if (!response.ok) {
     throw new Error(`AI model returned status ${response.status}`);
   }
-  
+
   const result = await response.json();
   if (result.data && result.data[0]?.b64_json) {
     return `data:image/png;base64,${result.data[0].b64_json}`;
@@ -141,7 +145,7 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
-  
+
   // State for storing and rendering generated designs
   const [generatedDesigns, setGeneratedDesigns] = useState<Creation[]>([]);
   const [originalImageUrl, setOriginalImageUrl] = useState<string | null>(null);
@@ -196,7 +200,7 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
     }
 
     setUploadedImage(file);
-    
+
     // Create preview
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -214,16 +218,16 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
         resultType: CameraResultType.Uri,
         source: source
       });
-      
+
       if (image.webPath) {
         setImagePreview(image.webPath);
-        
+
         // Fetch webPath content to convert to a binary File object
         const res = await fetch(image.webPath);
         const blob = await res.blob();
         const file = new File([blob], `captured-room.${image.format}`, { type: blob.type });
         setUploadedImage(file);
-        
+
         toast({
           title: "Image Selected",
           description: `Room image captured successfully from ${sourceType}.`
@@ -245,7 +249,7 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setDragOver(false);
-    
+
     const files = Array.from(e.dataTransfer.files);
     if (files.length > 0) {
       handleFileSelect(files[0]);
@@ -276,7 +280,7 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
         title: "Starting download...",
         description: "Your design image is fetching.",
       });
-      
+
       // If base64 data url, we can download directly
       if (url.startsWith('data:')) {
         const link = document.createElement('a');
@@ -297,7 +301,7 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(blobUrl);
       }
-      
+
       toast({
         title: "Download complete!",
         description: "Design saved to your device.",
@@ -327,10 +331,10 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
         title: "Optimizing Image...",
         description: "Compressing room photo to WebP format.",
       });
-      
+
       // Compress upload file to WebP
       const optimizedBlob = await prepareUploadBlob(uploadedImage, 1024, 1024, 0.8);
-      
+
       // Generate optimized WebP base64 of the original room photo to store locally in database history and for Gemini Vision
       const originalWebpBase64 = await optimizeImage(uploadedImage, 1024, 1024, 0.7);
 
@@ -351,7 +355,7 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
       try {
         console.log("🚀 Starting Gemini Vision analysis...");
         const geminiResult = await analyzeRoomWithGemini(originalWebpBase64, room, style);
-        
+
         if (geminiResult && geminiResult.success && geminiResult.enhancedPrompt) {
           // Combination strategy: Selected Room Type + Selected Style + Gemini enhancedPrompt
           finalPrompt = `${room} in ${style} style. ${geminiResult.enhancedPrompt}`;
@@ -361,6 +365,10 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
         }
       } catch (geminiError) {
         console.error("⚠️ Gemini analysis failed, falling back to static prompt template:", geminiError);
+        toast({
+          title: "Gemini Analysis Failed",
+          description: "Using standard prompt template. Please check your VITE_GEMINI_API_KEY in the .env file.",
+        });
         // Fallback: Use existing prompt builder
         finalPrompt = createPrompt(room, style);
       } finally {
@@ -373,11 +381,11 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
         title: "Uploading Image...",
         description: "Preparing your space for AI redesign.",
       });
-      
+
       // 1. Upload optimized photo to Pollinations
       const mediaUrl = await uploadToPollinations(optimizedBlob);
       setOriginalImageUrl(mediaUrl);
-      
+
       toast({
         title: "Generating AI Concepts...",
         description: "Reimagining your room. This takes about 10-15 seconds per option.",
@@ -391,7 +399,7 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
       for (let i = 0; i < numDesigns; i++) {
         const seed = Math.floor(Math.random() * 10000000) + i;
         const base64DataUrl = await generateSingleDesign(finalPrompt, mediaUrl, seed);
-        
+
         const creationItem = {
           id: crypto.randomUUID(),
           url: base64DataUrl,
@@ -400,29 +408,39 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
           room_type: room,
           created_at: new Date().toISOString()
         };
-        
+
         // 3. Save creation natively to device database
         await saveCreation(creationItem);
         resultsList.push(creationItem);
       }
 
       setGeneratedDesigns(resultsList);
-      
+
       toast({
         title: "Designs generated successfully!",
         description: `Generated ${resultsList.length} designs for your ${room}`,
       });
-      
+
       // Scroll to results section smoothly
       setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 150);
-      
+
     } catch (error: unknown) {
       console.error('Error generating designs:', error);
+
+      let errorMessage = "An error occurred while communicating with the AI server. Please try again.";
+      if (error instanceof Error) {
+        if (error.message.includes("402")) {
+          errorMessage = "The Pollinations API key has run out of credits (402 Payment Required). Please get a free API key from https://enter.pollinations.ai and set it as VITE_POLLINATIONS_API_KEY in your .env file.";
+        } else {
+          errorMessage = error.message;
+        }
+      }
+
       toast({
         title: "Generation Failed",
-        description: error instanceof Error ? error.message : "An error occurred while communicating with the AI server. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -488,9 +506,9 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
                   <div className="flex flex-col items-center justify-center">
                     <div className="w-full max-w-sm aspect-[4/3] rounded-2xl overflow-hidden bg-black/40 border border-gold/20 relative shadow-[0_0_40px_rgba(198,165,92,0.15)]">
                       {imagePreview ? (
-                        <img 
-                          src={imagePreview} 
-                          alt="Analyzing room" 
+                        <img
+                          src={imagePreview}
+                          alt="Analyzing room"
                           className="w-full h-full object-cover opacity-60 filter saturate-50"
                         />
                       ) : (
@@ -498,7 +516,7 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
                           Analyzing empty space...
                         </div>
                       )}
-                      <motion.div 
+                      <motion.div
                         initial={{ top: '0%' }}
                         animate={{ top: '100%' }}
                         transition={{
@@ -527,7 +545,7 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
                         Google Gemini Vision is studying your space
                       </p>
                     </div>
-                    
+
                     {/* Stepper Checklist */}
                     <div className="space-y-4">
                       {analysisStages.map((stage, idx) => {
@@ -570,10 +588,10 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
               transition={{ duration: 0.4 }}
               className="mt-12 max-w-[800px] mx-auto"
             >
-              <GenerationLoader 
-                imagePreview={imagePreview} 
-                roomType={room} 
-                styleName={style} 
+              <GenerationLoader
+                imagePreview={imagePreview}
+                roomType={room}
+                styleName={style}
               />
             </motion.div>
           ) : (
@@ -600,9 +618,9 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
               >
                 {imagePreview ? (
                   <div className="relative">
-                    <img 
-                      src={imagePreview} 
-                      alt="Uploaded room" 
+                    <img
+                      src={imagePreview}
+                      alt="Uploaded room"
                       className="max-w-full max-h-64 mx-auto rounded-lg object-cover"
                     />
                     <button
@@ -617,19 +635,19 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
                   <>
                     <Upload size={48} className="mx-auto text-gold mb-4" />
                     <p className="font-inter text-lg text-white font-semibold">Drop your room photo here</p>
-                    
+
                     <div className="flex flex-col sm:flex-row gap-3 justify-center mt-5">
-                      <motion.button 
-                        whileHover={{ scale: 1.03 }} 
-                        whileTap={{ scale: 0.97 }} 
+                      <motion.button
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
                         onClick={() => handleUploadClick('camera')}
                         className="btn-gold-pill px-6 py-2.5 font-inter text-sm cursor-pointer flex items-center gap-2 justify-center"
                       >
                         <CameraIcon size={16} /> Camera
                       </motion.button>
-                      <motion.button 
-                        whileHover={{ scale: 1.03 }} 
-                        whileTap={{ scale: 0.97 }} 
+                      <motion.button
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
                         onClick={() => handleUploadClick('gallery')}
                         className="btn-outline-gold px-6 py-2.5 font-inter text-sm cursor-pointer flex items-center gap-2 justify-center"
                       >
@@ -639,7 +657,7 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
                     <p className="font-inter text-[13px] text-white/35 mt-4">Supports JPG, PNG up to 10MB</p>
                   </>
                 )}
-                
+
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -725,7 +743,7 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
                       alt={`${style} ${room} design ${idx + 1}`}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    
+
                     {/* Hover Actions Overlay */}
                     <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20">
                       <button
@@ -767,7 +785,7 @@ const AIGenerator = ({ room, setRoom }: AIGeneratorProps) => {
         {selectedDesign && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
             <div className="absolute inset-0" onClick={() => setSelectedDesign(null)} />
-            
+
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
